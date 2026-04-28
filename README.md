@@ -8,7 +8,7 @@
 
 ## Установка
 
-*Видео гайд https://youtu.be/Kk0Uw5ajzO8
+Видео гайд https://youtu.be/Kk0Uw5ajzO8
 
 1. Откройте `chrome://extensions` или `edge://extensions`.
 2. Включите «Режим разработчика».
