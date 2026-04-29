@@ -1,0 +1,456 @@
+{
+    "result": {
+        "data": {
+            "1": {
+                "id": "1",
+                "name": "1",
+                "grade": 41,
+                "stats": {
+                    "dex": 4,
+                    "attack_speed_modifier": 350
+                },
+                "combination": [
+                    "attack",
+                    "assist",
+                    "defense"
+                ],
+                "equipmentCategory": "weapon"
+            },
+            "2": {
+                "id": "2",
+                "name": "2",
+                "grade": 41,
+                "stats": {
+                    "str": 4,
+                    "critical_damage_taken_modifier": 700
+                },
+                "combination": [
+                    "attack",
+                    "defense",
+                    "assist"
+                ],
+                "equipmentCategory": "weapon"
+            },
+            "3": {
+                "id": "3",
+                "name": "3",
+                "grade": 41,
+                "stats": {
+                    "boss_bonus_attack_power": 32,
+                    "damage_reduction_penetration": 24
+                },
+                "combination": [
+                    "assist",
+                    "attack",
+                    "defense"
+                ],
+                "equipmentCategory": "weapon"
+            },
+            "4": {
+                "id": "4",
+                "name": "4",
+                "grade": 41,
+                "stats": {
+                    "damage_reduction": 24,
+                    "boss_damage_reduction": 48
+                },
+                "combination": [
+                    "assist",
+                    "defense",
+                    "attack"
+                ],
+                "equipmentCategory": "weapon"
+            },
+            "5": {
+                "id": "5",
+                "name": "5",
+                "grade": 41,
+                "stats": {
+                    "int": 4,
+                    "debuff_taken_duration_modifier": -350
+                },
+                "combination": [
+                    "defense",
+                    "assist",
+                    "attack"
+                ],
+                "equipmentCategory": "weapon"
+            },
+            "6": {
+                "id": "6",
+                "name": "6",
+                "grade": 41,
+                "stats": {
+                    "per": 4,
+                    "shield_block_chance_penetration": 1050
+                },
+                "combination": [
+                    "defense",
+                    "attack",
+                    "assist"
+                ],
+                "equipmentCategory": "weapon"
+            },
+            "7": {
+                "id": "7",
+                "name": "7",
+                "grade": 41,
+                "stats": {
+                    "dex": 3,
+                    "hp_max": 800
+                },
+                "combination": [
+                    "attack",
+                    "defense",
+                    "assist"
+                ],
+                "equipmentCategory": "necklace"
+            },
+            "8": {
+                "id": "8",
+                "name": "8",
+                "grade": 41,
+                "stats": {
+                    "int": 3,
+                    "hp_max": 800
+                },
+                "combination": [
+                    "attack",
+                    "assist",
+                    "defense"
+                ],
+                "equipmentCategory": "necklace"
+            },
+            "9": {
+                "id": "9",
+                "name": "9",
+                "grade": 41,
+                "stats": {
+                    "dex": 3,
+                    "critical_damage_taken_modifier": 700
+                },
+                "combination": [
+                    "assist",
+                    "attack",
+                    "defense"
+                ],
+                "equipmentCategory": "necklace"
+            },
+            "10": {
+                "id": "10",
+                "name": "10",
+                "grade": 41,
+                "stats": {
+                    "int": 3,
+                    "critical_damage_taken_modifier": 700
+                },
+                "combination": [
+                    "assist",
+                    "defense",
+                    "attack"
+                ],
+                "equipmentCategory": "necklace"
+            },
+            "11": {
+                "id": "11",
+                "name": "11",
+                "grade": 41,
+                "stats": {
+                    "dex": 3,
+                    "move_speed_modifier": 350
+                },
+                "combination": [
+                    "defense",
+                    "assist",
+                    "attack"
+                ],
+                "equipmentCategory": "necklace"
+            },
+            "12": {
+                "id": "12",
+                "name": "12",
+                "grade": 41,
+                "stats": {
+                    "int": 3,
+                    "move_speed_modifier": 350
+                },
+                "combination": [
+                    "defense",
+                    "attack",
+                    "assist"
+                ],
+                "equipmentCategory": "necklace"
+            },
+            "13": {
+                "id": "13",
+                "name": "13",
+                "grade": 41,
+                "stats": {
+                    "attack_speed_modifier": 350,
+                    "shield_block_chance_penetration": 720
+                },
+                "combination": [
+                    "assist",
+                    "attack",
+                    "defense"
+                ],
+                "equipmentCategory": "bracelet"
+            },
+            "14": {
+                "id": "14",
+                "name": "14",
+                "grade": 41,
+                "stats": {
+                    "damage_reduction_penetration": 16,
+                    "shield_block_chance_penetration": 720
+                },
+                "combination": [
+                    "attack",
+                    "defense",
+                    "assist"
+                ],
+                "equipmentCategory": "bracelet"
+            },
+            "15": {
+                "id": "15",
+                "name": "15",
+                "grade": 41,
+                "stats": {
+                    "hp_max": 600,
+                    "damage_reduction_penetration": 16
+                },
+                "combination": [
+                    "attack",
+                    "assist",
+                    "defense"
+                ],
+                "equipmentCategory": "bracelet"
+            },
+            "16": {
+                "id": "16",
+                "name": "16",
+                "grade": 41,
+                "stats": {
+                    "hp_max": 600,
+                    "attack_speed_modifier": 350
+                },
+                "combination": [
+                    "assist",
+                    "defense",
+                    "attack"
+                ],
+                "equipmentCategory": "bracelet"
+            },
+            "17": {
+                "id": "17",
+                "name": "17",
+                "grade": 41,
+                "stats": {
+                    "hp_max": 600,
+                    "boss_bonus_attack_power": 24
+                },
+                "combination": [
+                    "defense",
+                    "attack",
+                    "assist"
+                ],
+                "equipmentCategory": "bracelet"
+            },
+            "18": {
+                "id": "18",
+                "name": "18",
+                "grade": 41,
+                "stats": {
+                    "boss_bonus_attack_power": 24,
+                    "shield_block_chance_penetration": 720
+                },
+                "combination": [
+                    "defense",
+                    "assist",
+                    "attack"
+                ],
+                "equipmentCategory": "bracelet"
+            },
+            "19": {
+                "id": "19",
+                "name": "19",
+                "grade": 41,
+                "stats": {
+                    "per": 3,
+                    "hp_max": 800
+                },
+                "combination": [
+                    "attack",
+                    "assist",
+                    "defense"
+                ],
+                "equipmentCategory": "ring"
+            },
+            "20": {
+                "id": "20",
+                "name": "20",
+                "grade": 41,
+                "stats": {
+                    "str": 3,
+                    "hp_max": 800
+                },
+                "combination": [
+                    "attack",
+                    "defense",
+                    "assist"
+                ],
+                "equipmentCategory": "ring"
+            },
+            "21": {
+                "id": "21",
+                "name": "21",
+                "grade": 41,
+                "stats": {
+                    "str": 3,
+                    "skill_cooldown_modifier": 350
+                },
+                "combination": [
+                    "assist",
+                    "attack",
+                    "defense"
+                ],
+                "equipmentCategory": "ring"
+            },
+            "22": {
+                "id": "22",
+                "name": "22",
+                "grade": 41,
+                "stats": {
+                    "per": 3,
+                    "skill_cooldown_modifier": 350
+                },
+                "combination": [
+                    "assist",
+                    "defense",
+                    "attack"
+                ],
+                "equipmentCategory": "ring"
+            },
+            "23": {
+                "id": "23",
+                "name": "23",
+                "grade": 41,
+                "stats": {
+                    "str": 3,
+                    "shield_block_chance_penetration": 1050
+                },
+                "combination": [
+                    "defense",
+                    "assist",
+                    "attack"
+                ],
+                "equipmentCategory": "ring"
+            },
+            "24": {
+                "id": "24",
+                "name": "24",
+                "grade": 41,
+                "stats": {
+                    "per": 3,
+                    "shield_block_chance_penetration": 1050
+                },
+                "combination": [
+                    "defense",
+                    "attack",
+                    "assist"
+                ],
+                "equipmentCategory": "ring"
+            },
+            "25": {
+                "id": "25",
+                "name": "25",
+                "grade": 41,
+                "stats": {
+                    "move_speed_modifier": 350,
+                    "critical_damage_taken_modifier": 500
+                },
+                "combination": [
+                    "assist",
+                    "attack",
+                    "defense"
+                ],
+                "equipmentCategory": "belt"
+            },
+            "26": {
+                "id": "26",
+                "name": "26",
+                "grade": 41,
+                "stats": {
+                    "damage_reduction": 16,
+                    "critical_damage_taken_modifier": 500
+                },
+                "combination": [
+                    "attack",
+                    "defense",
+                    "assist"
+                ],
+                "equipmentCategory": "belt"
+            },
+            "27": {
+                "id": "27",
+                "name": "27",
+                "grade": 41,
+                "stats": {
+                    "hp_max": 600,
+                    "damage_reduction": 16
+                },
+                "combination": [
+                    "attack",
+                    "assist",
+                    "defense"
+                ],
+                "equipmentCategory": "belt"
+            },
+            "28": {
+                "id": "28",
+                "name": "28",
+                "grade": 41,
+                "stats": {
+                    "hp_max": 600,
+                    "move_speed_modifier": 350
+                },
+                "combination": [
+                    "assist",
+                    "defense",
+                    "attack"
+                ],
+                "equipmentCategory": "belt"
+            },
+            "29": {
+                "id": "29",
+                "name": "29",
+                "grade": 41,
+                "stats": {
+                    "boss_damage_reduction": 32,
+                    "critical_damage_taken_modifier": 500
+                },
+                "combination": [
+                    "defense",
+                    "assist",
+                    "attack"
+                ],
+                "equipmentCategory": "belt"
+            },
+            "30": {
+                "id": "30",
+                "name": "30",
+                "grade": 41,
+                "stats": {
+                    "hp_max": 600,
+                    "boss_damage_reduction": 32
+                },
+                "combination": [
+                    "defense",
+                    "attack",
+                    "assist"
+                ],
+                "equipmentCategory": "belt"
+            }
+        }
+    }
+}

@@ -1,7 +1,51 @@
 (function () {
   "use strict";
 
+  var TIER_KEY = "rql_rune_synergy_tier";
+  var T2_RUNE_BORDER = "rgb(103, 194, 221)";
+  var RUNE_ROW_SEL =
+    "div.border-l-purple.flex.h-12[class*=\"cursor-pointer\"]";
+
   var rqlArmorFilterKey = "all";
+
+  function applyRuneSynergyRowBorderForTier() {
+    try {
+      chrome.storage.local.get([TIER_KEY], function (r) {
+        var t2 = r[TIER_KEY] !== "t3";
+        var nodes = document.querySelectorAll(RUNE_ROW_SEL);
+        for (var i = 0; i < nodes.length; i++) {
+          var el = nodes[i];
+          if (!el.querySelector('img[src*="/rune/"]')) {
+            continue;
+          }
+          if (t2) {
+            el.style.setProperty(
+              "border-left-color",
+              T2_RUNE_BORDER,
+              "important"
+            );
+          } else {
+            el.style.removeProperty("border-left-color");
+          }
+        }
+      });
+    } catch (_e) {}
+  }
+
+  function bindRuneTierBorderListener() {
+    if (document.documentElement.getAttribute("data-rql-rune-border") === "1") {
+      return;
+    }
+    document.documentElement.setAttribute("data-rql-rune-border", "1");
+    try {
+      chrome.storage.onChanged.addListener(function (changes, area) {
+        if (area !== "local" || !changes[TIER_KEY]) {
+          return;
+        }
+        applyRuneSynergyRowBorderForTier();
+      });
+    } catch (_e) {}
+  }
 
   var SLOT_IMG_SELECTORS =
     'img[src*="equipment-slots/earring.webp"], img[src*="equipment-slots/brooch.webp"]';
@@ -538,6 +582,7 @@
     removeStatPanelHr();
     ensureArmorWeightFilterButtons();
     enhanceArmorDropdownLabels();
+    applyRuneSynergyRowBorderForTier();
   }
 
   var pending = false;
@@ -555,6 +600,7 @@
   runRemovals();
 
   bindArmorFilterDelegation();
+  bindRuneTierBorderListener();
 
   var obs = new MutationObserver(scheduleRemove);
   obs.observe(document.documentElement, { childList: true, subtree: true });

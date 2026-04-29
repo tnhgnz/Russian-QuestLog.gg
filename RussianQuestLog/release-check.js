@@ -9,7 +9,6 @@
   var ALARM_NAME = "rql_version_check";
   var ALARM_PERIOD_MIN = 24 * 60;
   var PAGE_CACHE_KEY = "rql_page_update_cache";
-  var PAGE_CACHE_TTL_MS = 30 * 60 * 1000;
   var LEGACY_NOTIFY_KEYS = [
     "rql_outdated_notify_sig",
     "rql_version_notified_tag",
@@ -48,7 +47,6 @@
     });
   }
 
-  /** @returns {-1|0|1} */
   function compareVersion(a, b) {
     var pa = versionParts(a);
     var pb = versionParts(b);
@@ -90,10 +88,6 @@
     });
   }
 
-  /**
-   * Периодически обновляет кэш версии для баннера на questlog (без уведомлений).
-   * @param {{ immediate?: boolean }} opts
-   */
   function maybeRefreshVersionCache(opts) {
     opts = opts || {};
     var immediate = !!opts.immediate;
@@ -144,47 +138,26 @@
 
   function answerOutdatedQuery(sendResponse) {
     var local = String(chrome.runtime.getManifest().version || "0").trim();
-    chrome.storage.local.get(PAGE_CACHE_KEY, function (got) {
-      var c = got[PAGE_CACHE_KEY];
-      var now = Date.now();
-      if (
-        c &&
-        typeof c === "object" &&
-        c.ts &&
-        now - c.ts < PAGE_CACHE_TTL_MS &&
-        c.local === local &&
-        typeof c.outdated === "boolean"
-      ) {
+    fetchLatestTag()
+      .then(function (remoteTagRaw) {
+        var remoteTag = stripV(remoteTagRaw);
+        if (!remoteTag) {
+          sendResponse({ ok: false, outdated: false });
+          return;
+        }
+        var outdated = compareVersion(local, remoteTag) < 0;
+        persistPageUpdateCache(local, remoteTagRaw, remoteTag, outdated);
         sendResponse({
           ok: true,
-          outdated: c.outdated,
+          outdated: outdated,
           local: local,
-          remote: String(c.remote || ""),
+          remote: remoteTag,
           releasesUrl: RELEASES_PAGE,
         });
-        return;
-      }
-      fetchLatestTag()
-        .then(function (remoteTagRaw) {
-          var remoteTag = stripV(remoteTagRaw);
-          if (!remoteTag) {
-            sendResponse({ ok: false, outdated: false });
-            return;
-          }
-          var outdated = compareVersion(local, remoteTag) < 0;
-          persistPageUpdateCache(local, remoteTagRaw, remoteTag, outdated);
-          sendResponse({
-            ok: true,
-            outdated: outdated,
-            local: local,
-            remote: remoteTag,
-            releasesUrl: RELEASES_PAGE,
-          });
-        })
-        .catch(function () {
-          sendResponse({ ok: false, outdated: false });
-        });
-    });
+      })
+      .catch(function () {
+        sendResponse({ ok: false, outdated: false });
+      });
   }
 
   chrome.runtime.onMessage.addListener(function (msg, _sender, sendResponse) {

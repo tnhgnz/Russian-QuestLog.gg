@@ -1,8 +1,13 @@
 (function () {
   "use strict";
 
-  var SESSION_DISMISS = "rql_outdated_banner_dismissed";
+  var SESSION_DISMISS_FOR = "rql_outdated_banner_dismiss_for";
+  var LEGACY_DISMISS = "rql_outdated_banner_dismissed";
   var OVERLAY_ID = "rql-outdated-plugin-overlay";
+
+  try {
+    sessionStorage.removeItem(LEGACY_DISMISS);
+  } catch (_e) {}
 
   function mountOverlay(overlay) {
     var root = document.body || document.documentElement;
@@ -32,7 +37,12 @@
     try {
       document.removeEventListener("keydown", overlay.__rqlEsc);
     } catch (_e) {}
-    sessionStorage.setItem(SESSION_DISMISS, "1");
+    try {
+      var r = String(overlay.__rqlRemote || "").trim();
+      if (r) {
+        sessionStorage.setItem(SESSION_DISMISS_FOR, r);
+      }
+    } catch (_e2) {}
     overlay.remove();
   }
 
@@ -40,14 +50,21 @@
     if (!info || !info.outdated) {
       return;
     }
-    if (sessionStorage.getItem(SESSION_DISMISS) === "1") {
-      return;
-    }
+    try {
+      var dismissedFor = sessionStorage.getItem(SESSION_DISMISS_FOR);
+      if (
+        dismissedFor &&
+        dismissedFor === String(info.remote || "").trim()
+      ) {
+        return;
+      }
+    } catch (_e) {}
     if (document.getElementById(OVERLAY_ID)) {
       return;
     }
 
     var overlay = document.createElement("div");
+    overlay.__rqlRemote = String(info.remote || "").trim();
     overlay.id = OVERLAY_ID;
     overlay.setAttribute("role", "presentation");
     overlay.style.cssText = [

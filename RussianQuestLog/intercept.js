@@ -262,9 +262,67 @@
     return typeof ct === "string" && ct.indexOf("application/json") !== -1;
   }
 
+  function extractFetchUrl(args) {
+    var a0 = args[0];
+    if (typeof a0 === "string") {
+      return a0;
+    }
+    if (a0 && typeof a0.url === "string") {
+      return a0.url;
+    }
+    return "";
+  }
+
+  function getRuneSynergiesJsonUrl() {
+    try {
+      var el = document.documentElement;
+      if (!el) {
+        return "";
+      }
+      return el.getAttribute("data-rql-rune-synergies-json") || "";
+    } catch (_e) {
+      return "";
+    }
+  }
+
+  function isRuneSynergiesApiUrl(url) {
+    return (
+      String(url).indexOf("characterBuilder.getRuneSynergies") !== -1
+    );
+  }
+
   var originalFetch = window.fetch;
   window.fetch = function fetchFiltered() {
     var args = arguments;
+    var reqUrl = extractFetchUrl(args);
+    var localRunesUrl = getRuneSynergiesJsonUrl();
+    if (localRunesUrl && isRuneSynergiesApiUrl(reqUrl)) {
+      return fetch(localRunesUrl, { credentials: "omit", cache: "no-store" })
+        .then(function (lr) {
+          if (!lr.ok) {
+            return originalFetch.apply(this, args);
+          }
+          return lr.text();
+        })
+        .then(function (text) {
+          try {
+            var parsed = JSON.parse(text);
+            filterApiJson(parsed);
+            return new Response(JSON.stringify(parsed), {
+              status: 200,
+              statusText: "OK",
+              headers: new Headers({
+                "content-type": "application/json",
+              }),
+            });
+          } catch (_e) {
+            return originalFetch.apply(this, args);
+          }
+        })
+        .catch(function () {
+          return originalFetch.apply(this, args);
+        });
+    }
     return originalFetch.apply(this, args).then(function (response) {
       var ct = response.headers.get("content-type") || "";
       if (!looksLikeJsonContentType(ct) || response.status === 204) {
