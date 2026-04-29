@@ -3,7 +3,25 @@
 
   var ALLOWED_CREATED_AT = "2024-09-27";
   var MAX_GRADE = 41;
-  var FORBIDDEN_GRADE = 32;
+  var FORBIDDEN_GRADES = [32, 11];
+  var ID_ORB_MARKER = "orb_";
+
+  function passesOrbIdRule(item) {
+    if (!item || typeof item !== "object") {
+      return false;
+    }
+    var keys = ["id", "compoundId"];
+    for (var k = 0; k < keys.length; k++) {
+      var s = item[keys[k]];
+      if (typeof s !== "string") {
+        continue;
+      }
+      if (s.indexOf(ID_ORB_MARKER) !== -1) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   function passesGradeRule(item) {
     if (!item || typeof item !== "object") {
@@ -16,7 +34,7 @@
     if (isNaN(g)) {
       return true;
     }
-    if (g === FORBIDDEN_GRADE) {
+    if (FORBIDDEN_GRADES.indexOf(g) !== -1) {
       return false;
     }
     return g <= MAX_GRADE;
@@ -39,11 +57,15 @@
     return (
       !item ||
       item.createdAt !== ALLOWED_CREATED_AT ||
-      !passesGradeRule(item)
+      !passesGradeRule(item) ||
+      !passesOrbIdRule(item)
     );
   }
 
   function excludeNestedGameItem(item) {
+    if (!passesOrbIdRule(item)) {
+      return true;
+    }
     if (!passesGradeRule(item)) {
       return true;
     }
