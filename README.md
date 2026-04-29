@@ -26,6 +26,9 @@
 <img width="1037" height="676" alt="image" src="https://github.com/user-attachments/assets/e83562fd-83d0-43bf-89c4-a2c2088ae81f" />
 <img width="342" height="846" alt="image" src="https://github.com/user-attachments/assets/84a4f803-4ea5-48f0-b49d-8202a2646fc0" />
 
+Также работают все инструменты сайта! Например Gear Viewer, плагин их не ломает!
+<img width="1920" height="997" alt="image" src="https://github.com/user-attachments/assets/bf3b713b-5dba-4621-b87f-bcdd08265d85" />
+
 ## Установка
 
 Видео гайд https://youtu.be/Kk0Uw5ajzO8
