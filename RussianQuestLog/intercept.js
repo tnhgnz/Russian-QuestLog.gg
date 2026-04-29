@@ -3,6 +3,7 @@
 
   var ALLOWED_CREATED_AT = "2024-09-27";
   var MAX_GRADE = 41;
+  var FORBIDDEN_GRADE = 32;
 
   function passesGradeRule(item) {
     if (!item || typeof item !== "object") {
@@ -14,6 +15,9 @@
     var g = Number(item.grade);
     if (isNaN(g)) {
       return true;
+    }
+    if (g === FORBIDDEN_GRADE) {
+      return false;
     }
     return g <= MAX_GRADE;
   }
