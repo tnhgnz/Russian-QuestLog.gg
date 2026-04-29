@@ -24,7 +24,7 @@
 
 Всё что на скриншоте помечено красным, добавлено плагином!
 <img width="1037" height="676" alt="image" src="https://github.com/user-attachments/assets/e83562fd-83d0-43bf-89c4-a2c2088ae81f" />
-<img width="342" height="846" alt="image" src="https://github.com/user-attachments/assets/1927b18a-a36b-49a1-b526-4e2008ea449a" />
+<img width="342" height="846" alt="image" src="https://github.com/user-attachments/assets/84a4f803-4ea5-48f0-b49d-8202a2646fc0" />
 
 ## Установка
 
