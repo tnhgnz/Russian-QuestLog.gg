@@ -20,13 +20,13 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://questlog.gg/*"],
+      "matches": ["https://questlog.gg/throne-and-liberty/*/db/*", "https://questlog.gg/throne-and-liberty/*/character-builder/*"],
       "js": ["intercept.js"],
       "run_at": "document_start",
       "world": "MAIN"
     },
     {
-      "matches": ["https://questlog.gg/*"],
+      "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
       "js": ["dom-hide.js"],
       "run_at": "document_idle"
     }
