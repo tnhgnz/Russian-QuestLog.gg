@@ -20,9 +20,11 @@
 
 1. Удобные фильтры по типу брони (Ткань, Кожа, Тяж)
 2. Дополнительно подписывает в выдаче какого типа броня
+3. Расширяет правую панель со статами на всю страницу
 
 Всё что на скриншоте помечено красным, добавлено плагином!
 <img width="1037" height="676" alt="image" src="https://github.com/user-attachments/assets/e83562fd-83d0-43bf-89c4-a2c2088ae81f" />
+<img width="343" height="1080" alt="image" src="https://github.com/user-attachments/assets/e0e397c2-3234-4e96-a705-6a1ad34f3c54" />
 
 ## Установка
 
