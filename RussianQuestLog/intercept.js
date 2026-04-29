@@ -6,6 +6,114 @@
   var FORBIDDEN_GRADES = [32, 11];
   var ID_ORB_MARKER = "orb_";
 
+  try {
+    if (typeof window.__rqlArmorWeight === "undefined") {
+      window.__rqlArmorWeight = "all";
+    }
+    if (typeof window.__rqlArmorSlot === "undefined") {
+      window.__rqlArmorSlot = "";
+    }
+  } catch (_i) {}
+
+  function armorSlotAllowsWeightFilter() {
+    try {
+      var s = String(window.__rqlArmorSlot || "").toLowerCase();
+      if (!s) {
+        return false;
+      }
+      return (
+        s === "head" ||
+        s === "chest" ||
+        s === "hands" ||
+        s === "legs" ||
+        s === "feet"
+      );
+    } catch (_e) {
+      return false;
+    }
+  }
+
+  function getArmorWeightFilter() {
+    try {
+      var v = window.__rqlArmorWeight;
+      if (v === "cloth" || v === "leather" || v === "plate" || v === "all") {
+        return v;
+      }
+    } catch (_e) {}
+    return "all";
+  }
+
+  function looksLikeArmorItem(item) {
+    if (!item || typeof item !== "object") {
+      return false;
+    }
+    if (
+      typeof item.mainCategory === "string" &&
+      item.mainCategory.toLowerCase() === "armor"
+    ) {
+      return true;
+    }
+    if (typeof item.subCategory === "string") {
+      var sc = item.subCategory.toLowerCase();
+      if (
+        sc === "head" ||
+        sc === "hands" ||
+        sc === "chest" ||
+        sc === "legs" ||
+        sc === "feet" ||
+        sc === "shoulders" ||
+        sc === "waist" ||
+        sc === "back" ||
+        sc === "neck" ||
+        sc === "earring" ||
+        sc === "brooch" ||
+        sc === "ring" ||
+        sc === "bracelet"
+      ) {
+        return true;
+      }
+    }
+    var id = typeof item.id === "string" ? item.id.toLowerCase() : "";
+    return /^(hands|head|chest|legs|feet|shoulders|waist|back|neck|earring|brooch|ring|bracelet)_/.test(
+      id
+    );
+  }
+
+  function armorWeightKindFromStrings(low) {
+    if (low.indexOf("leather_") !== -1 || low.indexOf("_leather") !== -1) {
+      return "leather";
+    }
+    if (low.indexOf("plate_") !== -1 || low.indexOf("_plate") !== -1) {
+      return "plate";
+    }
+    if (low.indexOf("fabric_") !== -1 || low.indexOf("_fabric") !== -1) {
+      return "cloth";
+    }
+    return null;
+  }
+
+  function passesArmorWeightFilter(item) {
+    if (!armorSlotAllowsWeightFilter()) {
+      return true;
+    }
+    if (!looksLikeArmorItem(item)) {
+      return true;
+    }
+    var f = getArmorWeightFilter();
+    if (f === "all") {
+      return true;
+    }
+    var id = typeof item.id === "string" ? item.id.toLowerCase() : "";
+    var cp =
+      typeof item.compoundId === "string" ? item.compoundId.toLowerCase() : "";
+    var low = id + " " + cp;
+    var w = armorWeightKindFromStrings(low);
+    if (!w) {
+      return true;
+    }
+    return w === f;
+  }
+
   function passesOrbIdRule(item) {
     if (!item || typeof item !== "object") {
       return false;
@@ -58,7 +166,8 @@
       !item ||
       item.createdAt !== ALLOWED_CREATED_AT ||
       !passesGradeRule(item) ||
-      !passesOrbIdRule(item)
+      !passesOrbIdRule(item) ||
+      !passesArmorWeightFilter(item)
     );
   }
 
@@ -67,6 +176,9 @@
       return true;
     }
     if (!passesGradeRule(item)) {
+      return true;
+    }
+    if (!passesArmorWeightFilter(item)) {
       return true;
     }
     if (Object.prototype.hasOwnProperty.call(item, "createdAt")) {
