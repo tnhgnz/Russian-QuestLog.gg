@@ -6,11 +6,19 @@
 
 ---
 
+## Меню Плагина открывается по клику на иконку
+
+<img width="234" height="218" alt="image" src="https://github.com/user-attachments/assets/4357f025-63aa-47b7-90b2-39973811dcf1" />
+
+---
+
 ## Над чем работаю в данный момент?
 
 1. Добавляю старые мастерки
 
 <img width="1050" height="538" alt="image" src="https://github.com/user-attachments/assets/d1da0c8f-d4d7-418d-9bda-ceadcc2a5649" />
+
+---
 
 ## Что делает плагин ?
 
@@ -21,6 +29,8 @@
 5. Убирает Артефакты
 6. Убирает Серые предметы (а зачем они нужны?)
 7. Добавляет крутые улучшения, которые сами разработчики QuestLog не сделали!
+
+---
 
 ## Какие улучшения плагин добавляет
 
@@ -34,6 +44,8 @@
 
 Также работают все инструменты сайта! Например Gear Viewer, плагин их не ломает!
 <img width="1920" height="997" alt="image" src="https://github.com/user-attachments/assets/bf3b713b-5dba-4621-b87f-bcdd08265d85" />
+
+---
 
 ## Установка
 
