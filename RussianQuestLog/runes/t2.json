@@ -96,7 +96,7 @@
                 "name": "7",
                 "grade": 41,
                 "stats": {
-                    "dex": 3,
+                    "dex": 2,
                     "hp_max": 600
                 },
                 "combination": [
