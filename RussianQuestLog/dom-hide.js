@@ -52,6 +52,44 @@
     }
   }
 
+  function removeStatsLucentTabBar() {
+    var nodes = document.querySelectorAll("div.grid.w-full.grid-cols-2");
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      if (
+        n.querySelector('[class*="chart-bar"]') &&
+        n.querySelector('[class*="coins-bold"]')
+      ) {
+        n.remove();
+      }
+    }
+  }
+
+  function removeCombatPowerRow() {
+    var ps = document.querySelectorAll("p.truncate.text-xs.text-darker");
+    for (var i = 0; i < ps.length; i++) {
+      if (ps[i].textContent.replace(/\s+/g, " ").trim() !== "Combat Power") {
+        continue;
+      }
+      var row = ps[i].closest("div.justify-between.rounded-b");
+      if (row && row.parentNode) {
+        row.remove();
+      }
+    }
+  }
+
+  function removeStatPanelHr() {
+    var hrs = document.querySelectorAll("hr.mx-2");
+    for (var hi = 0; hi < hrs.length; hi++) {
+      var hr = hrs[hi];
+      var cls = hr.getAttribute("class") || "";
+      if (cls.indexOf("border-dark") === -1) {
+        continue;
+      }
+      hr.remove();
+    }
+  }
+
   function slotFromEquippedArmorCode(src) {
     if (!src || typeof src !== "string") {
       return "";
@@ -487,6 +525,9 @@
     removeOrbWeaponButtons();
     removeArtifactsTabButton();
     removeCharBuilderStatPanel();
+    removeStatsLucentTabBar();
+    removeCombatPowerRow();
+    removeStatPanelHr();
     ensureArmorWeightFilterButtons();
     enhanceArmorDropdownLabels();
   }
