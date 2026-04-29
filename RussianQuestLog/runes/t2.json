@@ -97,7 +97,7 @@
                 "grade": 41,
                 "stats": {
                     "dex": 3,
-                    "hp_max": 800
+                    "hp_max": 600
                 },
                 "combination": [
                     "attack",
