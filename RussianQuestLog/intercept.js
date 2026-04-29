@@ -1,7 +1,6 @@
 (function () {
   "use strict";
 
-  var ALLOWED_CREATED_AT = "2024-09-27";
   var MAX_GRADE = 41;
   var FORBIDDEN_GRADES = [32, 11];
   var ID_ORB_MARKER = "orb_";
@@ -164,7 +163,6 @@
   function excludePageDataItem(item) {
     return (
       !item ||
-      item.createdAt !== ALLOWED_CREATED_AT ||
       !passesGradeRule(item) ||
       !passesOrbIdRule(item) ||
       !passesArmorWeightFilter(item)
@@ -180,11 +178,6 @@
     }
     if (!passesArmorWeightFilter(item)) {
       return true;
-    }
-    if (Object.prototype.hasOwnProperty.call(item, "createdAt")) {
-      if (item.createdAt !== ALLOWED_CREATED_AT) {
-        return true;
-      }
     }
     return false;
   }
@@ -249,14 +242,6 @@
         grades[g] = (grades[g] || 0) + 1;
       }
       fd.grade = grades;
-    }
-    if (fd.createdAt && typeof fd.createdAt === "object") {
-      var total = filtered.length;
-      var createdBucket = {};
-      if (total) {
-        createdBucket[ALLOWED_CREATED_AT] = total;
-      }
-      fd.createdAt = createdBucket;
     }
   }
 

@@ -196,12 +196,16 @@
     );
   }
 
+  var lastArmorSlotMsg = "\u0000";
   function syncArmorSlotToPage(alt) {
-    var s = document.createElement("script");
-    s.textContent =
-      "(function(){window.__rqlArmorSlot=" + JSON.stringify(alt || "") + ";})();";
-    (document.documentElement || document.head).appendChild(s);
-    s.remove();
+    var s = alt || "";
+    if (s === lastArmorSlotMsg) {
+      return;
+    }
+    lastArmorSlotMsg = s;
+    try {
+      chrome.runtime.sendMessage({ type: "rql_armor_slot", alt: s });
+    } catch (_e) {}
   }
 
   function removeArmorWeightFilterButtons() {
@@ -231,13 +235,17 @@
   var RQL_BTN_ACTIVE =
     "inline-flex cursor-pointer items-center justify-center rounded font-medium transition hover:brightness-125 bg-grade-11/80 text-default border border-grade-11 h-[32px] min-w-8 text-sm px-3";
 
+  var lastArmorWeightMsg = "\u0000";
   function setPageArmorWeight(v) {
     rqlArmorFilterKey = v;
-    var s = document.createElement("script");
-    s.textContent =
-      "(function(){window.__rqlArmorWeight=" + JSON.stringify(v) + ";})();";
-    (document.documentElement || document.head).appendChild(s);
-    s.remove();
+    if (v === lastArmorWeightMsg) {
+      applyArmorDropdownVisibility();
+      return;
+    }
+    lastArmorWeightMsg = v;
+    try {
+      chrome.runtime.sendMessage({ type: "rql_armor_weight", weight: v });
+    } catch (_e) {}
     applyArmorDropdownVisibility();
   }
 

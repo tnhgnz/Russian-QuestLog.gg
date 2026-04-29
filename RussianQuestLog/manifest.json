@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "RussianQuestLog",
-  "version": "5.0",
+  "version": "6.0",
   "description": "QuestLog.gg патч Русского Throne and Liberty \nhttps://www.twitch.tv/tnhgnz\nhttps://www.youtube.com/@Tnhgnz",
   "icons": {
     "16": "icons/icon.png",
@@ -18,9 +18,20 @@
     },
     "default_title": "RussianQuestLog — Tnhgnz"
   },
+  "background": {
+    "service_worker": "rql-bridge-sw.js"
+  },
+  "permissions": ["scripting", "storage", "alarms"],
+  "host_permissions": ["https://api.github.com/*"],
   "content_scripts": [
     {
-      "matches": ["https://questlog.gg/throne-and-liberty/*/db/*", "https://questlog.gg/throne-and-liberty/*/character-builder/*"],
+      "matches": ["https://questlog.gg/throne-and-liberty/*/db/*"],
+      "js": ["db-fix.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
       "js": ["intercept.js"],
       "run_at": "document_start",
       "world": "MAIN"
@@ -28,6 +39,11 @@
     {
       "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
       "js": ["dom-hide.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*"],
+      "js": ["outdated-banner.js"],
       "run_at": "document_idle"
     }
   ]
