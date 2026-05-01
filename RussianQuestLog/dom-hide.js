@@ -6,8 +6,6 @@
   var RUNE_ROW_SEL =
     "div.border-l-purple.flex.h-12[class*=\"cursor-pointer\"]";
 
-  var rqlArmorFilterKey = "all";
-
   function applyRuneSynergyRowBorderForTier() {
     try {
       chrome.storage.local.get([TIER_KEY], function (r) {
@@ -134,342 +132,6 @@
     }
   }
 
-  function slotFromEquippedArmorCode(src) {
-    if (!src || typeof src !== "string") {
-      return "";
-    }
-    var u = src.toLowerCase();
-    if (u.indexOf("_hm_") !== -1) {
-      return "head";
-    }
-    if (u.indexOf("_ts_") !== -1) {
-      return "chest";
-    }
-    if (u.indexOf("_gl_") !== -1) {
-      return "hands";
-    }
-    if (u.indexOf("_pt_") !== -1) {
-      return "legs";
-    }
-    if (u.indexOf("_bt_") !== -1) {
-      return "feet";
-    }
-    return "";
-  }
-
-  function getSelectedEquipmentSlotAlt() {
-    var grids = document.querySelectorAll("div.grid.grid-cols-3");
-    for (var g = 0; g < grids.length; g++) {
-      var grid = grids[g];
-      if (
-        !grid.querySelector(
-          'img[src*="equipment-slots"], img[src*="/Armor/"], img[src*="armor"]'
-        )
-      ) {
-        continue;
-      }
-      var active = grid.querySelector("div.aspect-square[class*='glow-grade']");
-      if (!active) {
-        active = grid.querySelector("div[class*='glow-grade']");
-      }
-      if (!active) {
-        continue;
-      }
-      var ph = active.querySelector('img[src*="equipment-slots"]');
-      if (ph) {
-        var alt = (ph.getAttribute("alt") || "").trim().toLowerCase();
-        var slotFromPh = alt;
-        if (!slotFromPh) {
-          var psrc = ph.getAttribute("src") || "";
-          var pm = psrc.match(/equipment-slots\/([a-z0-9_]+)\.webp/i);
-          if (pm) {
-            slotFromPh = pm[1].toLowerCase();
-          }
-        }
-        if (slotAllowsArmorWeightFilter(slotFromPh)) {
-          return slotFromPh;
-        }
-      }
-      var imgs = active.querySelectorAll("img[src]");
-      for (var ii = 0; ii < imgs.length; ii++) {
-        var es = imgs[ii].getAttribute("src") || "";
-        if (es.indexOf("equipment-slots") !== -1) {
-          continue;
-        }
-        if (es.indexOf("Tex_Pol_Circle") !== -1) {
-          continue;
-        }
-        if (
-          es.indexOf("Equip/Armor") === -1 &&
-          es.indexOf("equip/armor") === -1 &&
-          es.toLowerCase().indexOf("/armor/") === -1
-        ) {
-          continue;
-        }
-        var slotGear = slotFromEquippedArmorCode(es);
-        if (slotGear) {
-          return slotGear;
-        }
-      }
-      if (ph) {
-        var psrc2 = ph.getAttribute("src") || "";
-        var pm2 = psrc2.match(/equipment-slots\/([a-z0-9_]+)\.webp/i);
-        if (pm2) {
-          return pm2[1].toLowerCase();
-        }
-        var alt2 = (ph.getAttribute("alt") || "").trim().toLowerCase();
-        if (alt2) {
-          return alt2;
-        }
-      }
-    }
-    return "";
-  }
-
-  function slotAllowsArmorWeightFilter(alt) {
-    if (!alt) {
-      return false;
-    }
-    var s = alt.toLowerCase();
-    return (
-      s === "head" ||
-      s === "chest" ||
-      s === "hands" ||
-      s === "legs" ||
-      s === "feet"
-    );
-  }
-
-  var lastArmorSlotMsg = "\u0000";
-  function syncArmorSlotToPage(alt) {
-    var s = alt || "";
-    if (s === lastArmorSlotMsg) {
-      return;
-    }
-    lastArmorSlotMsg = s;
-    try {
-      chrome.runtime.sendMessage({ type: "rql_armor_slot", alt: s });
-    } catch (_e) {}
-  }
-
-  function removeArmorWeightFilterButtons() {
-    var clothBtns = document.querySelectorAll(
-      'button[data-rql-armor-weight="cloth"]'
-    );
-    for (var i = 0; i < clothBtns.length; i++) {
-      var bar = clothBtns[i].closest("div.flex.items-center.gap-1");
-      if (!bar) {
-        continue;
-      }
-      var rm = bar.querySelectorAll(
-        'button[data-rql-armor-weight="cloth"],button[data-rql-armor-weight="leather"],button[data-rql-armor-weight="plate"]'
-      );
-      for (var j = 0; j < rm.length; j++) {
-        rm[j].remove();
-      }
-      var allB = bar.querySelector('button[data-rql-armor-weight="all"]');
-      if (allB) {
-        allB.removeAttribute("data-rql-armor-weight");
-      }
-    }
-  }
-
-  var RQL_BTN_INACTIVE =
-    "inline-flex cursor-pointer items-center justify-center rounded font-medium transition hover:brightness-125 bg-light border-light border text-default h-[32px] min-w-8 text-sm px-3";
-  var RQL_BTN_ACTIVE =
-    "inline-flex cursor-pointer items-center justify-center rounded font-medium transition hover:brightness-125 bg-grade-11/80 text-default border border-grade-11 h-[32px] min-w-8 text-sm px-3";
-
-  var lastArmorWeightMsg = "\u0000";
-  function setPageArmorWeight(v) {
-    rqlArmorFilterKey = v;
-    if (v === lastArmorWeightMsg) {
-      applyArmorDropdownVisibility();
-      return;
-    }
-    lastArmorWeightMsg = v;
-    try {
-      chrome.runtime.sendMessage({ type: "rql_armor_weight", weight: v });
-    } catch (_e) {}
-    applyArmorDropdownVisibility();
-  }
-
-  function styleArmorFilterButtons(bar, activeKey) {
-    var bs = bar.querySelectorAll("button[data-rql-armor-weight]");
-    for (var i = 0; i < bs.length; i++) {
-      var b = bs[i];
-      var k = b.getAttribute("data-rql-armor-weight");
-      b.className = k === activeKey ? RQL_BTN_ACTIVE : RQL_BTN_INACTIVE;
-    }
-  }
-
-  function bindArmorFilterDelegation() {
-    if (document.documentElement.getAttribute("data-rql-armor-del") === "1") {
-      return;
-    }
-    document.documentElement.setAttribute("data-rql-armor-del", "1");
-    function onArmorFilterPointer(e) {
-      var t = e.target;
-      if (!t || !t.closest) {
-        return;
-      }
-      var btn = t.closest("button[data-rql-armor-weight]");
-      if (!btn) {
-        return;
-      }
-      var bar = btn.closest("div.flex.items-center.gap-1");
-      if (!bar || !bar.querySelector('button[data-rql-armor-weight="cloth"]')) {
-        return;
-      }
-      var key = btn.getAttribute("data-rql-armor-weight");
-      if (!key) {
-        return;
-      }
-      setPageArmorWeight(key);
-      styleArmorFilterButtons(bar, key);
-      if (key !== "all") {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }
-    }
-    document.addEventListener("pointerdown", onArmorFilterPointer, true);
-  }
-
-  function ensureArmorWeightFilterButtons() {
-    var slotAlt = getSelectedEquipmentSlotAlt();
-    syncArmorSlotToPage(slotAlt);
-    if (!slotAllowsArmorWeightFilter(slotAlt)) {
-      removeArmorWeightFilterButtons();
-      if (rqlArmorFilterKey !== "all") {
-        setPageArmorWeight("all");
-      } else {
-        applyArmorDropdownVisibility();
-      }
-      return;
-    }
-    var bars = document.querySelectorAll("div.flex.items-center.gap-1");
-    for (var i = 0; i < bars.length; i++) {
-      var bar = bars[i];
-      if (bar.querySelector('img[src*="weapons/check"]')) {
-        continue;
-      }
-      if (bar.querySelector('button[data-rql-armor-weight="cloth"]')) {
-        continue;
-      }
-      var buttons = bar.querySelectorAll("button");
-      if (buttons.length !== 1) {
-        continue;
-      }
-      var allBtn = buttons[0];
-      if (allBtn.textContent.replace(/\s+/g, " ").trim() !== "All") {
-        continue;
-      }
-      bar.style.position = "relative";
-      bar.style.zIndex = "50";
-      bar.style.pointerEvents = "auto";
-      allBtn.setAttribute("data-rql-armor-weight", "all");
-      allBtn.style.pointerEvents = "auto";
-      allBtn.style.position = "relative";
-      allBtn.style.zIndex = "51";
-      var pairs = [
-        ["cloth", "Cloth"],
-        ["leather", "Leather"],
-        ["plate", "Plate"]
-      ];
-      for (var p = 0; p < pairs.length; p++) {
-        var key = pairs[p][0];
-        var label = pairs[p][1];
-        var b = document.createElement("button");
-        b.type = "button";
-        b.className = RQL_BTN_INACTIVE;
-        b.setAttribute("data-rql-armor-weight", key);
-        b.style.pointerEvents = "auto";
-        b.style.position = "relative";
-        b.style.zIndex = "52";
-        b.style.cursor = "pointer";
-        var sp = document.createElement("span");
-        sp.className = "";
-        sp.textContent = label;
-        sp.style.pointerEvents = "none";
-        b.appendChild(sp);
-        bar.appendChild(b);
-      }
-      setPageArmorWeight("all");
-      styleArmorFilterButtons(bar, "all");
-    }
-  }
-
-  function armorKindKeyFromRow(row) {
-    var withData = row.querySelectorAll(
-      "[data-item-id],[data-compound-id],[data-id]"
-    );
-    for (var a = 0; a < withData.length; a++) {
-      var el = withData[a];
-      var tid =
-        el.getAttribute("data-item-id") ||
-        el.getAttribute("data-compound-id") ||
-        el.getAttribute("data-id");
-      var p = armorPrefixFromIdString(tid);
-      if (p === "Cloth") {
-        return "cloth";
-      }
-      if (p === "Leather") {
-        return "leather";
-      }
-      if (p === "Plate") {
-        return "plate";
-      }
-    }
-    var im = row.querySelector('img[src*="Equip/Armor"]');
-    if (!im) {
-      return null;
-    }
-    var p2 = armorPrefixFromIconSrc(im.src);
-    if (p2 === "Cloth") {
-      return "cloth";
-    }
-    if (p2 === "Leather") {
-      return "leather";
-    }
-    if (p2 === "Plate") {
-      return "plate";
-    }
-    return null;
-  }
-
-  function applyArmorDropdownVisibility() {
-    if (!slotAllowsArmorWeightFilter(getSelectedEquipmentSlotAlt())) {
-      var drops0 = document.querySelectorAll("div.absolute.z-20.max-h-80");
-      for (var d0 = 0; d0 < drops0.length; d0++) {
-        var drop0 = drops0[d0];
-        var rows0 = drop0.querySelectorAll(":scope > div.flex.cursor-pointer");
-        for (var r0 = 0; r0 < rows0.length; r0++) {
-          rows0[r0].style.removeProperty("display");
-        }
-      }
-      return;
-    }
-    var f = rqlArmorFilterKey;
-    var drops = document.querySelectorAll("div.absolute.z-20.max-h-80");
-    for (var d = 0; d < drops.length; d++) {
-      var drop = drops[d];
-      var rows = drop.querySelectorAll(":scope > div.flex.cursor-pointer");
-      for (var r = 0; r < rows.length; r++) {
-        var row = rows[r];
-        if (!row.querySelector('img[src*="Equip/Armor"]')) {
-          continue;
-        }
-        var kind = armorKindKeyFromRow(row);
-        if (f === "all") {
-          row.style.removeProperty("display");
-        } else if (!kind || kind === f) {
-          row.style.removeProperty("display");
-        } else {
-          row.style.display = "none";
-        }
-      }
-    }
-  }
-
   function armorPrefixFromIdString(id) {
     if (!id || typeof id !== "string") {
       return null;
@@ -517,9 +179,6 @@
   }
 
   function enhanceArmorDropdownLabels() {
-    if (!slotAllowsArmorWeightFilter(getSelectedEquipmentSlotAlt())) {
-      return;
-    }
     var drops = document.querySelectorAll("div.absolute.z-20.max-h-80");
     for (var d = 0; d < drops.length; d++) {
       var drop = drops[d];
@@ -569,7 +228,77 @@
         span.setAttribute("data-rql-ap", "1");
       }
     }
-    applyArmorDropdownVisibility();
+  }
+
+  function patchAttributeHeaderSecondAlways49() {
+    var hs = document.querySelectorAll(
+      'h3[class*="bg-dark"][class*="flex-center"]'
+    );
+    for (var i = 0; i < hs.length; i++) {
+      var el = hs[i];
+      var t = el.textContent || "";
+      if (!/\(\s*\d+\s*\/\s*\d+\s*\)/.test(t)) {
+        continue;
+      }
+      var next = t.replace(
+        /\(\s*(\d+)\s*\/\s*\d+\s*\)/g,
+        function (_m, usedStr) {
+          return "(" + usedStr + "/49)";
+        }
+      );
+      if (next !== t) {
+        el.textContent = next;
+      }
+    }
+  }
+
+  function getAttributePointsUsedFromHeader() {
+    var hs = document.querySelectorAll(
+      'h3[class*="bg-dark"][class*="flex-center"]'
+    );
+    for (var i = 0; i < hs.length; i++) {
+      var m = (hs[i].textContent || "").match(
+        /\(\s*(\d+)\s*\/\s*\d+\s*\)/
+      );
+      if (m) {
+        return parseInt(m[1], 10);
+      }
+    }
+    return -1;
+  }
+
+  function lockAttributePlusButtonsAt49() {
+    var locked = document.querySelectorAll('[data-rql-attr-plus-lock="1"]');
+    for (var r = 0; r < locked.length; r++) {
+      var x = locked[r];
+      x.removeAttribute("data-rql-attr-plus-lock");
+      x.disabled = false;
+      x.style.removeProperty("pointer-events");
+      x.style.removeProperty("opacity");
+      x.style.removeProperty("cursor");
+    }
+    var used = getAttributePointsUsedFromHeader();
+    if (used < 49) {
+      return;
+    }
+    var candidates = document.querySelectorAll(
+      "button.inline-flex.aspect-square"
+    );
+    for (var j = 0; j < candidates.length; j++) {
+      var b = candidates[j];
+      var cls = b.getAttribute("class") || "";
+      if (cls.indexOf("min-w-8") === -1) {
+        continue;
+      }
+      if (!b.querySelector('[class*="plus-bold"]')) {
+        continue;
+      }
+      b.setAttribute("data-rql-attr-plus-lock", "1");
+      b.disabled = true;
+      b.style.setProperty("pointer-events", "none", "important");
+      b.style.setProperty("opacity", "0.42", "important");
+      b.style.setProperty("cursor", "not-allowed", "important");
+    }
   }
 
   function runRemovals() {
@@ -580,9 +309,33 @@
     removeStatsLucentTabBar();
     removeCombatPowerRow();
     removeStatPanelHr();
-    ensureArmorWeightFilterButtons();
     enhanceArmorDropdownLabels();
     applyRuneSynergyRowBorderForTier();
+    patchAttributeHeaderSecondAlways49();
+    lockAttributePlusButtonsAt49();
+  }
+
+  function bindAttrPlusClickBlock() {
+    if (document.documentElement.getAttribute("data-rql-attr-plus-cap") === "1") {
+      return;
+    }
+    document.documentElement.setAttribute("data-rql-attr-plus-cap", "1");
+    document.addEventListener(
+      "pointerdown",
+      function (e) {
+        var t = e.target;
+        if (!t || !t.closest) {
+          return;
+        }
+        var b = t.closest('button[data-rql-attr-plus-lock="1"]');
+        if (!b) {
+          return;
+        }
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      },
+      true
+    );
   }
 
   var pending = false;
@@ -599,8 +352,8 @@
 
   runRemovals();
 
-  bindArmorFilterDelegation();
   bindRuneTierBorderListener();
+  bindAttrPlusClickBlock();
 
   var obs = new MutationObserver(scheduleRemove);
   obs.observe(document.documentElement, { childList: true, subtree: true });
