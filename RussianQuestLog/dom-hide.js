@@ -132,6 +132,62 @@
     }
   }
 
+  function hideResonanceEffectSection() {
+    var ps = document.querySelectorAll("p.text-sm");
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i];
+      var t = p.textContent.replace(/\s+/g, " ").trim();
+      if (t !== "Resonance Effect" && t !== "Эффект резонанса") {
+        continue;
+      }
+      var cls = p.getAttribute("class") || "";
+      if (cls.indexOf("flex") === -1 || cls.indexOf("gap-1") === -1) {
+        continue;
+      }
+      var wrap = p.parentElement;
+      if (!wrap || wrap.nodeName !== "DIV") {
+        continue;
+      }
+      if (!wrap.querySelector("div.group.relative")) {
+        continue;
+      }
+      wrap.style.setProperty("display", "none", "important");
+    }
+  }
+
+  function hideResonanceEffectExtraDot() {
+    var bars = document.querySelectorAll("div.absolute.bottom-6");
+    for (var b = 0; b < bars.length; b++) {
+      var bar = bars[b];
+      var c = bar.getAttribute("class") || "";
+      if (
+        c.indexOf("-translate-x-1/2") === -1 ||
+        c.indexOf("gap-0.5") === -1
+      ) {
+        continue;
+      }
+      var divKids = [];
+      for (var k = 0; k < bar.children.length; k++) {
+        var ch = bar.children[k];
+        if (ch.nodeName === "DIV") {
+          divKids.push(ch);
+        }
+      }
+      if (divKids.length < 4) {
+        continue;
+      }
+      var fourth = divKids[3];
+      var dc = fourth.getAttribute("class") || "";
+      if (
+        dc.indexOf("border-lighter") !== -1 &&
+        dc.indexOf("bg-lighter") !== -1 &&
+        dc.indexOf("rounded-full") !== -1
+      ) {
+        fourth.style.setProperty("display", "none", "important");
+      }
+    }
+  }
+
   function armorPrefixFromIdString(id) {
     if (!id || typeof id !== "string") {
       return null;
@@ -309,6 +365,8 @@
     removeStatsLucentTabBar();
     removeCombatPowerRow();
     removeStatPanelHr();
+    hideResonanceEffectSection();
+    hideResonanceEffectExtraDot();
     enhanceArmorDropdownLabels();
     applyRuneSynergyRowBorderForTier();
     patchAttributeHeaderSecondAlways49();

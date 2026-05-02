@@ -26,7 +26,7 @@
   "host_permissions": ["https://api.github.com/*"],
   "web_accessible_resources": [
     {
-      "resources": ["runes/t2.json", "runes/t3.json"],
+      "resources": ["mastery.json", "runes/t2.json", "runes/t3.json", "icons/mastery/*"],
       "matches": ["https://questlog.gg/*"]
     }
   ],
@@ -51,6 +51,17 @@
     {
       "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
       "js": ["dom-hide.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
+      "js": ["rql-mastery-pinia-bridge.js"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
+      "js": ["rql-mastery-modal.js", "rql-mastery-stat-patch.js"],
       "run_at": "document_idle"
     },
     {
