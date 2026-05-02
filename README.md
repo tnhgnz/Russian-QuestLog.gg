@@ -33,6 +33,7 @@
 3. Старые Мастерки
 
 <img width="1457" height="1080" alt="image" src="https://github.com/user-attachments/assets/762c7ce0-6649-489f-8e48-800d10061dd1" />
+<img width="1291" height="866" alt="image" src="https://github.com/user-attachments/assets/2f89c16e-4302-4e98-ad22-db72675e0ec1" />
 
 ---
 
