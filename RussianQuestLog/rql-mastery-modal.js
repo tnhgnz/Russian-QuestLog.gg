@@ -1,18 +1,9 @@
 (function () {
   "use strict";
 
-  /**
-   * Таб Mastery → наша кнопка → модалка с сеткой как на QuestLog:
-   * для каждого выбранного типа оружия (до 2 шт.: main / off) — 3 полосы веток,
-   * средняя с root-бонусом слева. Данные: mastery.json (корень расширения).
-   */
-
   var MASTERY_JSON = "mastery.json";
-
-  /** Картинка между нодами в строке ветки (стрелка). */
   var MASTERY_BETWEEN_NODES_IMG = "icons/mastery/mastery_arrow.png";
 
-  /** crossbow перед longbow — оба «bow». */
   var WEAPON_DETECT = [
     { key: "shield", re: /shield|buckler/i },
     { key: "greatsword", re: /greatsword|great_sword|sword2h|sword_2h|2h.*sword|gargantuan.*sword/i },
@@ -22,6 +13,27 @@
     { key: "staff", re: /\/staff|_staff|staff\.webp/i },
     { key: "dagger", re: /dagger|dag_|knife/i },
   ];
+
+  var WEAPON_KEY_TO_ENGLISH = {
+    shield: "SnS",
+    greatsword: "Greatsword",
+    longbow: "Longbow",
+    crossbow: "Crossbow",
+    staff: "Staff",
+    wand: "Wand",
+    dagger: "Dagger"
+  };
+
+  function wkLabel(wk) {
+    if (!wk) {
+      return "";
+    }
+    var t = WEAPON_KEY_TO_ENGLISH[wk];
+    if (t) {
+      return t;
+    }
+    return wk.charAt(0).toUpperCase() + wk.slice(1).toLowerCase();
+  }
 
   var masteryDataCache = null;
   var masteryLoadPromise = null;
@@ -80,7 +92,6 @@
 
   var MAX_WEAPONS_SHOWN = 2;
 
-  /** Отображение прогресса в заголовке блока оружия (в игре пока не подтягиваем). */
   var MASTERY_TITLE_TOTAL = 16;
 
   var LS_NODES_KEY = "rql-mastery-node-selection-v1";
@@ -116,7 +127,6 @@
     } catch (_e2) {}
   }
 
-  /** Первый обязательный нод: корень средней ветки или первый бонус средней строки, если корня нет. */
   function getEntryNodeId(weapon) {
     if (!weapon || !weapon.branches || weapon.branches.length < 3) {
       return null;
@@ -280,16 +290,81 @@
     return totals;
   }
 
+  function getIconPathForNode(weapon, nodeId) {
+    if (!weapon || !nodeId) {
+      return "";
+    }
+    if (nodeId === "1:root") {
+      return weapon.rootBonus && weapon.rootBonus.img
+        ? weapon.rootBonus.img
+        : "";
+    }
+    var p = parseNodeId(nodeId);
+    if (!p || p.root) {
+      return "";
+    }
+    var branch = weapon.branches[p.branch];
+    var bonuses = (branch && branch.branch_bonuses) || [];
+    var node = bonuses[p.k];
+    return node && node.img ? node.img : "";
+  }
+
+  function statIconsAndWeaponLabels(data) {
+    var icons = {};
+    var types = {};
+    if (!data) return { icons: icons, types: types };
+    var keys = pickWeaponKeys(data);
+    var ki;
+    for (ki = 0; ki < keys.length; ki++) {
+      var wk = keys[ki];
+      var weapon = data[wk];
+      if (!weapon) continue;
+      var lbl = wkLabel(wk);
+      var ids = getWeaponNodes(wk);
+      var ii;
+      for (ii = 0; ii < ids.length; ii++) {
+        var imgPath = getIconPathForNode(weapon, ids[ii]);
+        if (!imgPath) continue;
+        var stats = getStatsForNode(weapon, ids[ii]);
+        if (!stats || typeof stats !== "object") continue;
+        var resolved = resolveMasteryImage(imgPath);
+        if (!resolved) continue;
+        var sk;
+        for (sk in stats) {
+          if (!Object.prototype.hasOwnProperty.call(stats, sk)) continue;
+          var v = stats[sk];
+          if (typeof v !== "number" || isNaN(v) || v === 0) continue;
+          if (!icons[sk]) icons[sk] = resolved;
+          if (!types[sk]) types[sk] = lbl;
+        }
+      }
+    }
+    return { icons: icons, types: types };
+  }
+
   function syncMasteryBonusesAttr() {
     try {
       if (!masteryDataCache) {
         document.documentElement.removeAttribute("data-rql-mastery-bonuses");
+        document.documentElement.removeAttribute("data-rql-mastery-stat-icons");
+        document.documentElement.removeAttribute(
+          "data-rql-mastery-stat-weapon-types"
+        );
         return;
       }
       var totals = aggregateMasteryBonuses(masteryDataCache);
+      var maps = statIconsAndWeaponLabels(masteryDataCache);
       document.documentElement.setAttribute(
         "data-rql-mastery-bonuses",
         JSON.stringify(totals)
+      );
+      document.documentElement.setAttribute(
+        "data-rql-mastery-stat-icons",
+        JSON.stringify(maps.icons)
+      );
+      document.documentElement.setAttribute(
+        "data-rql-mastery-stat-weapon-types",
+        JSON.stringify(maps.types)
       );
       document.dispatchEvent(
         new CustomEvent("rql-mastery-bonuses-updated", { detail: totals })
@@ -297,6 +372,10 @@
     } catch (_s) {
       try {
         document.documentElement.removeAttribute("data-rql-mastery-bonuses");
+        document.documentElement.removeAttribute("data-rql-mastery-stat-icons");
+        document.documentElement.removeAttribute(
+          "data-rql-mastery-stat-weapon-types"
+        );
       } catch (_s2) {}
     }
   }
@@ -310,7 +389,6 @@
     }
     var sLower = s.toLowerCase();
 
-    // Пустой слот: только иконка ячейки QuestLog (не предмет).
     if (/equipment-slots\/(main_hand|off_hand)\.webp/i.test(s)) {
       return null;
     }
@@ -321,7 +399,6 @@
       return null;
     }
 
-    // Имена файлов TL: двуручный меч — greatsword; одноручный IT_P_Sword_* — маска shield в mastery.json.
     if (/it_p_sword2h|sword_2h/i.test(sLower)) {
       return "greatsword";
     }
@@ -380,7 +457,6 @@
     return out;
   }
 
-  /** Две ячейки сетки экипировки: только img в div.isolate.p-4 с …/Equip/Weapon/… в src. */
   function detectEquippedWeaponKeys() {
     return keysFromEquipmentGrid().slice(0, MAX_WEAPONS_SHOWN);
   }
@@ -560,8 +636,6 @@
       if (connectorUrl) {
         parts.push(connectorImg(connectorUrl));
       }
-      /* Позиции: 1 = корень (лид, только средняя ветка), далее ноды branch_bonuses[0..] подряд.
-         Крупные гексы — у 2-й, 5-й, 8-й ноды цепочки (k = 2, 5, 8). */
       var gridMajor = k === 2 || k === 5 || k === 8;
       var nodeId = branchIndex + ":" + k;
       var pick = makePickOpts(weapon, nodeId, selectedIds);
@@ -935,7 +1009,6 @@
       getMasteryData: function () {
         return masteryDataCache;
       },
-      /** для отладки: какие ключи оружия сейчас видит страница */
       detectWeapons: detectEquippedWeaponKeys,
     };
   } catch (_w) {}
