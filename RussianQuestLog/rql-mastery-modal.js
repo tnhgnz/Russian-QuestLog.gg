@@ -12,6 +12,7 @@
     { key: "wand", re: /\/wand|_wand|wand\.webp/i },
     { key: "staff", re: /\/staff|_staff|staff\.webp/i },
     { key: "dagger", re: /dagger|dag_|knife/i },
+    { key: "spear", re: /spear|polearm|halberd|ranseur|lance|pike|javelin|it_p_spear|weapon_spear|sw2/i },
   ];
 
   var WEAPON_KEY_TO_ENGLISH = {
@@ -21,8 +22,20 @@
     crossbow: "Crossbow",
     staff: "Staff",
     wand: "Wand",
-    dagger: "Dagger"
+    dagger: "Dagger",
+    spear: "Spear"
   };
+
+  var CC_CHANCE_EXPAND_KEYS = [
+    "stun_chance",
+    "fear_chance",
+    "bind_chance",
+    "petrification_chance",
+    "sleep_chance",
+    "collision_chance",
+    "silence_chance",
+    "weaken_chance"
+  ];
 
   function wkLabel(wk) {
     if (!wk) {
@@ -268,12 +281,37 @@
     }
   }
 
+  function normalizeMasteryTotals(totals) {
+    if (!totals || typeof totals !== "object") {
+      return totals;
+    }
+    var ms = totals.move_speed;
+    if (typeof ms === "number" && !isNaN(ms) && ms !== 0) {
+      totals.move_speed_bonus = (totals.move_speed_bonus || 0) + ms;
+      delete totals.move_speed;
+    }
+    var cc = totals.cc_chance;
+    if (typeof cc === "number" && !isNaN(cc) && cc !== 0) {
+      var ci;
+      for (ci = 0; ci < CC_CHANCE_EXPAND_KEYS.length; ci++) {
+        var ck = CC_CHANCE_EXPAND_KEYS[ci];
+        totals[ck] = (totals[ck] || 0) + cc;
+      }
+      delete totals.cc_chance;
+    }
+    var dd = totals.debuff_duration;
+    if (typeof dd === "number" && !isNaN(dd) && dd !== 0) {
+      totals.debuff_duration = -Math.abs(dd);
+    }
+    return totals;
+  }
+
   function aggregateMasteryBonuses(masteryData) {
     var totals = {};
     if (!masteryData) {
       return totals;
     }
-    var keys = pickWeaponKeys(masteryData);
+    var keys = pickWeaponKeys(masteryData).slice(0, 1);
     var ki;
     for (ki = 0; ki < keys.length; ki++) {
       var wk = keys[ki];
@@ -313,7 +351,7 @@
     var icons = {};
     var types = {};
     if (!data) return { icons: icons, types: types };
-    var keys = pickWeaponKeys(data);
+    var keys = pickWeaponKeys(data).slice(0, 1);
     var ki;
     for (ki = 0; ki < keys.length; ki++) {
       var wk = keys[ki];
@@ -334,8 +372,18 @@
           if (!Object.prototype.hasOwnProperty.call(stats, sk)) continue;
           var v = stats[sk];
           if (typeof v !== "number" || isNaN(v) || v === 0) continue;
-          if (!icons[sk]) icons[sk] = resolved;
-          if (!types[sk]) types[sk] = lbl;
+          var markKeys = [sk];
+          if (sk === "move_speed") {
+            markKeys = ["move_speed_bonus"];
+          } else if (sk === "cc_chance") {
+            markKeys = CC_CHANCE_EXPAND_KEYS.slice();
+          }
+          var mi;
+          for (mi = 0; mi < markKeys.length; mi++) {
+            var mk = markKeys[mi];
+            if (!icons[mk]) icons[mk] = resolved;
+            if (!types[mk]) types[mk] = lbl;
+          }
         }
       }
     }
@@ -347,13 +395,27 @@
       if (!masteryDataCache) {
         document.documentElement.removeAttribute("data-rql-mastery-bonuses");
         document.documentElement.removeAttribute("data-rql-mastery-stat-icons");
+        document.documentElement.removeAttribute("data-rql-mastery-active-weapons");
+        document.documentElement.removeAttribute("data-rql-mastery-bonus-weapons");
         document.documentElement.removeAttribute(
           "data-rql-mastery-stat-weapon-types"
         );
         return;
       }
-      var totals = aggregateMasteryBonuses(masteryDataCache);
+      var activeKeys = pickWeaponKeys(masteryDataCache);
+      var bonusKeys = activeKeys.slice(0, 1);
+      var totals = normalizeMasteryTotals(
+        aggregateMasteryBonuses(masteryDataCache)
+      );
       var maps = statIconsAndWeaponLabels(masteryDataCache);
+      document.documentElement.setAttribute(
+        "data-rql-mastery-active-weapons",
+        JSON.stringify(activeKeys)
+      );
+      document.documentElement.setAttribute(
+        "data-rql-mastery-bonus-weapons",
+        JSON.stringify(bonusKeys)
+      );
       document.documentElement.setAttribute(
         "data-rql-mastery-bonuses",
         JSON.stringify(totals)
@@ -373,6 +435,8 @@
       try {
         document.documentElement.removeAttribute("data-rql-mastery-bonuses");
         document.documentElement.removeAttribute("data-rql-mastery-stat-icons");
+        document.documentElement.removeAttribute("data-rql-mastery-active-weapons");
+        document.documentElement.removeAttribute("data-rql-mastery-bonus-weapons");
         document.documentElement.removeAttribute(
           "data-rql-mastery-stat-weapon-types"
         );
@@ -462,13 +526,64 @@
   }
 
   function pickWeaponKeys(masteryData) {
-    var det = detectEquippedWeaponKeys();
+    if (!masteryData) {
+      return [];
+    }
+    var seen = Object.create(null);
     var use = [];
     var j;
+    var det = detectEquippedWeaponKeys();
     for (j = 0; j < det.length && use.length < MAX_WEAPONS_SHOWN; j++) {
       var wk = det[j];
-      if (masteryData[wk] && isWeaponDataKey(wk, masteryData)) {
-        use.push(wk);
+      if (!wk || seen[wk] || !isWeaponDataKey(wk, masteryData)) {
+        continue;
+      }
+      seen[wk] = true;
+      use.push(wk);
+    }
+    if (use.length < MAX_WEAPONS_SHOWN) {
+      try {
+        var raw = document.documentElement.getAttribute("data-rql-weapon-keys");
+        if (raw) {
+          var fromAttr = JSON.parse(raw);
+          if (Array.isArray(fromAttr)) {
+            var ai;
+            for (ai = 0; ai < fromAttr.length && use.length < MAX_WEAPONS_SHOWN; ai++) {
+              var ak = fromAttr[ai];
+              if (!ak || seen[ak] || !isWeaponDataKey(ak, masteryData)) {
+                continue;
+              }
+              seen[ak] = true;
+              use.push(ak);
+            }
+          }
+        }
+      } catch (_a) {}
+    }
+    if (use.length < MAX_WEAPONS_SHOWN) {
+      var wkeys = Object.keys(masteryData);
+      var candidates = [];
+      var ki;
+      for (ki = 0; ki < wkeys.length; ki++) {
+        var sk = wkeys[ki];
+        if (!sk || seen[sk] || !isWeaponDataKey(sk, masteryData)) {
+          continue;
+        }
+        var ids = getWeaponNodes(sk);
+        if (!ids || !ids.length) {
+          continue;
+        }
+        candidates.push({ key: sk, n: ids.length });
+      }
+      candidates.sort(function (a, b) {
+        return b.n - a.n;
+      });
+      var ci;
+      for (ci = 0; ci < candidates.length && use.length < MAX_WEAPONS_SHOWN; ci++) {
+        var ck = candidates[ci].key;
+        if (seen[ck]) continue;
+        seen[ck] = true;
+        use.push(ck);
       }
     }
     return use;
@@ -1002,7 +1117,7 @@
       getWeaponNodesForWeapon: getWeaponNodes,
       getAggregatedMasteryBonuses: function () {
         return masteryDataCache
-          ? aggregateMasteryBonuses(masteryDataCache)
+          ? normalizeMasteryTotals(aggregateMasteryBonuses(masteryDataCache))
           : {};
       },
       syncBonusesToDocument: syncMasteryBonusesAttr,

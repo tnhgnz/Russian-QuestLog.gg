@@ -1515,5 +1515,224 @@
         ]
       }
     ]
+  },
+  "spear": {
+    "rootBonus": {
+      "title": "Steel Stance",
+      "img": "icons/mastery/spear.png",
+      "stats": {
+        "damage_reduction": 8
+      }
+    },
+    "branches": [
+      {
+        "branch_title": "Endurance",
+        "branch_bonuses": [
+          {
+            "title": "Ranged Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "ranged_defense": 40
+            }
+          },
+          {
+            "title": "Magic Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "magic_defense": 40
+            }
+          },
+          {
+            "title": "Piercing Spear",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "shield_block_chance_penetration": 8
+            }
+          },
+          {
+            "title": "All Evasion",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_evasion": 40,
+              "ranged_evasion": 40,
+              "magic_evasion": 40
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 2
+            }
+          },
+          {
+            "title": "Unyielding Determination",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "melee_endurance": 105,
+              "ranged_endurance": 105,
+              "magic_endurance": 105
+            }
+          },
+          {
+            "title": "Max Health",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_health": 280
+            }
+          },
+          {
+            "title": "Debuff Duration",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "debuff_duration": 6
+            }
+          },
+          {
+            "title": "Steady Charge",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "move_speed_bonus": 6.5
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Annihilation",
+        "branch_bonuses": [
+          {
+            "title": "Melee Critical Hit Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_critical_hit": 40
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 14
+            }
+          },
+          {
+            "title": "Skillful Path",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "cc_chance": 50
+            }
+          },
+          {
+            "title": "Bonus Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "damage_bonus": 4
+            }
+          },
+          {
+            "title": "Buff Duration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "buff_duration": 6
+            }
+          },
+          {
+            "title": "Intense Flames",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "burning_damage": 10
+            }
+          },
+          {
+            "title": "Max Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 8
+            }
+          },
+          {
+            "title": "Melee Hit Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 60
+            }
+          },
+          {
+            "title": "Will of Annihilation",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "skill_damage_boost": 50
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Momentum",
+        "branch_bonuses": [
+          {
+            "title": "Melee Hit Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 20
+            }
+          },
+          {
+            "title": "Movement Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "move_speed_bonus": 2.4
+            }
+          },
+          {
+            "title": "Overprepared",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "cooldown_speed": 3
+            }
+          },
+          {
+            "title": "Max Mana",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_mana": 280
+            }
+          },
+          {
+            "title": "Max Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 4
+            }
+          },
+          {
+            "title": "Unshakable Mind",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "skill_damage_resistance": 80
+            }
+          },
+          {
+            "title": "Mana Cost Efficiency",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_cost_efficiency": 6
+            }
+          },
+          {
+            "title": "Melee Critical Hit Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_critical_hit": 60
+            }
+          },
+          {
+            "title": "Nature's Gamble",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "attack_speed_bonus": 6.5
+            }
+          }
+        ]
+      }
+    ]
   }
 }

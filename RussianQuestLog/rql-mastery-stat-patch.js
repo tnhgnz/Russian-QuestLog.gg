@@ -2,23 +2,42 @@
   "use strict";
 
   var ROW_SEL =
-    "div.justify-between.gap-2, div.justify-between.items-center, div.justify-between";
+    "div.justify-between.gap-2, div.justify-between.items-center, " +
+    "div.justify-between[class*='border-t'], div[data-draggable='true'].justify-between, " +
+    "div.justify-between";
   var LABELS = {
     main_max_damage: ["Main Weapon Attack", "Main Attack", "Main Hand"],
     skill_damage: ["Skill Damage", "Skill Attack"],
-    melee_hit: ["Melee Hit"],
-    magic_hit: ["Magic Hit"],
-    ranged_hit: ["Ranged Hit"],
-    max_health: ["Max Health"],
-    max_mana: ["Max Mana"],
+    melee_hit: ["Melee Hit", "Melee Hit Chance"],
+    melee_critical_hit: ["Melee Critical Hit", "Melee Critical Hit Chance"],
+    magic_hit: ["Magic Hit", "Magic Hit Chance"],
+    ranged_hit: ["Ranged Hit", "Ranged Hit Chance"],
+    max_health: [
+      "Max Health",
+      "Maximum Health",
+      "Bonus Health",
+      "Total Health",
+      "Макс. здоровье",
+      "Макс здоровье",
+      "Максимум здоровья",
+      "Максимальное здоровье",
+      "Здоровье (макс.)",
+      "Здоровье (макс)"
+    ],
+    max_mana: ["Max Mana", "Maximum Mana", "Макс. мана", "Максимум маны"],
     health_regen: ["Health Regen", "Health Recovery"],
     mana_regen: ["Mana Regen", "Mana Recovery"],
     melee_defense: ["Melee Defense"],
     ranged_defense: ["Ranged Defense"],
     magic_defense: ["Magic Defense"],
-    damage_bonus: ["Damage Bonus"],
+    damage_bonus: ["Damage Bonus", "Bonus Damage"],
     damage_reduction: ["Damage Reduction"],
-    move_speed_bonus: ["Move Speed"],
+    skill_damage_boost: ["Skill Damage Boost"],
+    move_speed_bonus: [
+      "Move Speed",
+      "Movement Speed",
+      "Скорость передвижения"
+    ],
     off_hand_weapon_attack_chance_bonus: [
       "Off-Hand Weapon Attack Chance",
       "Off Hand Weapon Attack Chance"
@@ -27,11 +46,54 @@
     dex: ["Dexterity", "Dex"],
     wis: ["Wisdom", "Wis"],
     per: ["Perception", "Per"],
-    int: ["Intelligence", "Int"]
+    int: ["Intelligence", "Int"],
+    cc_chance: ["CC Chance"],
+    shield_block_chance_penetration: [
+      "Shield Block Penetration",
+      "Block Penetration"
+    ],
+    melee_endurance: ["Melee Endurance"],
+    ranged_endurance: ["Ranged Endurance"],
+    magic_endurance: ["Magic Endurance"],
+    buff_duration: ["Buff Duration", "Длительность усиления"],
+    debuff_duration: [
+      "Debuff Duration",
+      "Debuffs Duration",
+      "Длительность ослабления",
+      "Длительность дебаффов"
+    ],
+    melee_evasion: [
+      "Melee Evasion",
+      "Уклонение в ближнем бою"
+    ],
+    ranged_evasion: [
+      "Ranged Evasion",
+      "Уклонение в дальнем бою"
+    ],
+    magic_evasion: [
+      "Magic Evasion",
+      "Магическое уклонение"
+    ],
+    stun_chance: ["Stun Chance"],
+    fear_chance: ["Fear Chance"],
+    bind_chance: ["Bind Chance"],
+    petrification_chance: ["Petrification Chance"],
+    sleep_chance: ["Sleep Chance"],
+    collision_chance: ["Collision Chance"],
+    silence_chance: ["Silence Chance"],
+    weaken_chance: ["Weaken Chance"]
   };
 
   function inOverlay(el) {
     return !!(el && el.closest && el.closest("#rql-mastery-overlay"));
+  }
+
+  function inBlockedPatch(el) {
+    return !!(
+      el &&
+      el.closest &&
+      (el.closest("#rql-mastery-overlay") || el.closest("button"))
+    );
   }
 
   function guessLabel(key) {
@@ -45,65 +107,149 @@
 
   function rowLabel(row) {
     var kids = row.children;
-    if (!kids || !kids.length) return "";
-    var L = kids[0];
-    var el =
-      L.querySelector("span[class*='truncate']") ||
-      L.querySelector("span.truncate") ||
-      L.querySelector("p.truncate") ||
-      L.querySelector("p.text-sm") ||
-      L.querySelector("p") ||
-      L;
-    return ((el && el.textContent) || "").replace(/\s+/g, " ").trim();
+    if (!kids || kids.length < 2) return "";
+    var parts = [];
+    var ci;
+    for (ci = 0; ci < kids.length - 1; ci++) {
+      var cell = kids[ci];
+      if (!cell || inBlockedPatch(cell)) continue;
+      var el =
+        cell.querySelector("span[class*='truncate']") ||
+        cell.querySelector("span.truncate") ||
+        cell.querySelector("p.truncate") ||
+        cell.querySelector("p.text-sm") ||
+        cell.querySelector("p") ||
+        null;
+      var t = (
+        (el && el.textContent) ||
+        (cell.textContent || "")
+      )
+        .replace(/\s+/g, " ")
+        .trim();
+      if (t) parts.push(t);
+    }
+    return parts.join(" ").trim();
+  }
+
+  function normLabel(s) {
+    return String(s || "")
+      .replace(/\u00A0/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase();
+  }
+
+  function labelEquals(lab, cand) {
+    return normLabel(lab) === normLabel(cand);
+  }
+
+  function normalizeNumRaw(s) {
+    return String(s || "")
+      .replace(/\u00A0/g, " ")
+      .replace(/\u202F/g, " ")
+      .replace(/\u2007/g, " ")
+      .replace(/\u2008/g, " ")
+      .replace(/\u2009/g, " ")
+      .replace(/\u2060/g, "")
+      .replace(/\uFEFF/g, "");
+  }
+
+  function numericLeafSpans(root) {
+    var out = [];
+    if (!root || inBlockedPatch(root)) return out;
+    var all = root.querySelectorAll("span, div, p");
+    var i;
+    for (i = 0; i < all.length; i++) {
+      var sp = all[i];
+      if (inBlockedPatch(sp) || sp.childElementCount) continue;
+      var tx = normalizeNumRaw(sp.textContent).replace(/\s+/g, " ").trim();
+      if (!tx || isNaN(parseNum(tx))) continue;
+      out.push(sp);
+    }
+    if (!out.length && !root.childElementCount) {
+      var rt = normalizeNumRaw(root.textContent).replace(/\s+/g, " ").trim();
+      if (rt && !isNaN(parseNum(rt))) {
+        out.push(root);
+      }
+    }
+    return out;
+  }
+
+  function valueSpans(row) {
+    var kids = row.children;
+    if (!kids || kids.length < 2) return [];
+    var R = kids[kids.length - 1];
+    if (inBlockedPatch(R)) return [];
+    return numericLeafSpans(R);
+  }
+
+  function rowLooksDebuffDuration(lab, low) {
+    if (/debuff/i.test(lab)) return true;
+    if (/ослабл/i.test(low) || low.indexOf("дебаф") !== -1) return true;
+    return false;
   }
 
   function rowMatches(row, sk) {
     var lab = rowLabel(row);
     if (!lab) return false;
     var low = lab.toLowerCase();
-    var g = guessLabel(sk).toLowerCase();
-    if (g && low.indexOf(g) !== -1) return true;
+    if (sk === "buff_duration") {
+      if (/debuff/i.test(lab)) return false;
+      if (/ослабл/i.test(low) || low.indexOf("дебаф") !== -1) return false;
+    }
+    var g = guessLabel(sk);
+    if (g && labelEquals(lab, g)) {
+      if (sk === "buff_duration" && /debuff/i.test(lab)) return false;
+      if (sk === "buff_duration" && (/ослабл/i.test(low) || low.indexOf("дебаф") !== -1)) {
+        return false;
+      }
+      if (sk === "debuff_duration" && !rowLooksDebuffDuration(lab, low)) return false;
+      return true;
+    }
     var al = LABELS[sk];
     if (!al) return false;
     var i;
     for (i = 0; i < al.length; i++) {
-      if (low.indexOf(al[i].toLowerCase()) !== -1) return true;
+      if (labelEquals(lab, al[i])) {
+        if (sk === "buff_duration" && /debuff/i.test(lab)) continue;
+        if (sk === "buff_duration" && (/ослабл/i.test(low) || low.indexOf("дебаф") !== -1)) {
+          continue;
+        }
+        if (sk === "debuff_duration" && !rowLooksDebuffDuration(lab, low)) continue;
+        return true;
+      }
     }
     return false;
   }
 
   function parseNum(s) {
     if (s == null || s === "") return NaN;
-    var t = String(s)
-      .replace(/\u00A0/g, " ")
-      .replace(/\s+/g, "")
-      .replace(/%/g, "");
-    var hasComma = t.indexOf(",") >= 0;
-    var hasDot = t.indexOf(".") >= 0;
-    if (hasComma && hasDot) {
-      if (t.lastIndexOf(",") > t.lastIndexOf(".")) {
-        t = t.replace(/\./g, "").replace(",", ".");
-      } else {
-        t = t.replace(/,/g, "");
-      }
-    } else if (hasComma && !hasDot) {
-      var parts = t.split(",");
-      if (
-        parts.length === 2 &&
-        parts[1].length <= 2 &&
-        /^\d+$/.test(parts[0]) &&
-        /^\d+$/.test(parts[1])
-      ) {
-        t = parts[0] + "." + parts[1];
-      } else {
-        t = t.replace(/,/g, "");
-      }
-    } else {
-      t = t.replace(/,/g, "");
-    }
-    var m = t.match(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/i);
+    var raw = normalizeNumRaw(s).replace(/\s+/g, "").replace(/%/g, "");
+    var m = raw.match(/-?[\d.,]+(?:e[+-]?\d+)?/i);
     if (!m) return NaN;
-    var n = parseFloat(m[0]);
+    var t = m[0];
+    var exp = "";
+    var em = t.match(/(e[+-]?\d+)$/i);
+    if (em) {
+      exp = em[1];
+      t = t.slice(0, -exp.length);
+    }
+    var sign = "";
+    if (t.charAt(0) === "-") {
+      sign = "-";
+      t = t.slice(1);
+    }
+    var lastComma = t.lastIndexOf(",");
+    var lastDot = t.lastIndexOf(".");
+    var decPos = Math.max(lastComma, lastDot);
+    if (decPos >= 0) {
+      var intPart = t.slice(0, decPos).replace(/[.,]/g, "");
+      var fracPart = t.slice(decPos + 1).replace(/[.,]/g, "");
+      t = sign + intPart + "." + fracPart + exp;
+    } else {
+      t = sign + t.replace(/[.,]/g, "") + exp;
+    }
+    var n = parseFloat(t);
     return isNaN(n) ? NaN : n;
   }
 
@@ -119,24 +265,6 @@
   function serBonus(b) {
     if (typeof b !== "number" || !isFinite(b)) return "0";
     return String(Math.round(b * 1e6) / 1e6);
-  }
-
-  function valueSpans(row) {
-    var kids = row.children;
-    if (!kids || kids.length < 2) return [];
-    var R = kids[kids.length - 1];
-    if (inOverlay(R)) return [];
-    var spans = R.querySelectorAll("span");
-    var out = [];
-    var i;
-    for (i = 0; i < spans.length; i++) {
-      var sp = spans[i];
-      if (sp.childElementCount || inOverlay(sp)) continue;
-      var tx = (sp.textContent || "").trim();
-      if (!tx || isNaN(parseNum(tx))) continue;
-      out.push(sp);
-    }
-    return out;
   }
 
   function isPctSpan(sp, rightCol, numericSpans) {
@@ -164,16 +292,22 @@
     if (addStr == null || addStr === "") return;
     var add = parseFloat(addStr);
     var pct = sp.getAttribute("data-rql-mastery-pct") === "1";
+    var baseStr = sp.getAttribute("data-rql-mastery-base");
     var live = parseNum(sp.textContent);
     sp.removeAttribute("data-rql-mastery-add");
     sp.removeAttribute("data-rql-mastery-key");
     sp.removeAttribute("data-rql-mastery-pct");
+    sp.removeAttribute("data-rql-mastery-base");
+    var base = parseFloat(baseStr);
+    if (!isNaN(base)) {
+      var bv = fmtNum(base);
+      sp.textContent = pct ? bv + "%" : bv;
+      return;
+    }
     if (isNaN(add) || isNaN(live)) return;
     var naked = live - add;
-    if (naked >= -1e-6) {
-      var v = fmtNum(Math.max(0, naked));
-      sp.textContent = pct ? v + "%" : v;
-    }
+    var v = fmtNum(naked);
+    sp.textContent = pct ? v + "%" : v;
   }
 
   function clearPatches() {
@@ -188,25 +322,45 @@
   }
 
   function patchRow(row, sk, bonus) {
-    if (inOverlay(row) || row.children.length < 2) return;
+    if (inBlockedPatch(row) || row.children.length < 2) return false;
     var rightCol = row.children[row.children.length - 1];
     var spans = valueSpans(row);
-    if (!spans.length) return;
+    if (!spans.length) return false;
+    var appliedBonus = bonus;
+    var appliedStr = serBonus(appliedBonus);
+    var patched = false;
     var vi;
     for (vi = 0; vi < spans.length; vi++) {
       var sp = spans[vi];
-      var g = gearNum(sp);
+      if (
+        sp.getAttribute("data-rql-mastery-key") === sk &&
+        sp.getAttribute("data-rql-mastery-add") === appliedStr &&
+        sp.getAttribute("data-rql-mastery-base") != null
+      ) {
+        patched = true;
+        continue;
+      }
+      var baseStr = sp.getAttribute("data-rql-mastery-base");
+      var g = parseFloat(baseStr);
+      if (isNaN(g)) {
+        g = gearNum(sp);
+      }
       if (isNaN(g)) continue;
       var pct = isPctSpan(sp, rightCol, spans);
-      var sum = g + bonus;
+      var sum = g + appliedBonus;
       var out = fmtNum(sum);
       sp.textContent = pct ? out + "%" : out;
-      sp.setAttribute("data-rql-mastery-add", serBonus(bonus));
+      sp.setAttribute("data-rql-mastery-add", appliedStr);
+      sp.setAttribute("data-rql-mastery-base", serBonus(g));
       sp.setAttribute("data-rql-mastery-key", sk);
       if (pct) sp.setAttribute("data-rql-mastery-pct", "1");
       else sp.removeAttribute("data-rql-mastery-pct");
+      patched = true;
     }
-    row.setAttribute("data-rql-stat-key", sk);
+    if (patched) {
+      row.setAttribute("data-rql-stat-key", sk);
+    }
+    return patched;
   }
 
   function clearStatKeys() {
@@ -454,29 +608,88 @@
     }).observe(document.body, { childList: true, subtree: true });
   } catch (_m) {}
 
+  var lastBonusAttrForPatch = null;
+
+  function sortStatKeysForPatch(keys) {
+    var pri = {
+      max_health: 0,
+      max_mana: 1,
+      melee_evasion: 2,
+      ranged_evasion: 3,
+      magic_evasion: 4,
+    };
+    return keys.slice().sort(function (a, b) {
+      var pa = Object.prototype.hasOwnProperty.call(pri, a) ? pri[a] : 50;
+      var pb = Object.prototype.hasOwnProperty.call(pri, b) ? pri[b] : 50;
+      if (pa !== pb) return pa - pb;
+      return a.localeCompare(b);
+    });
+  }
+
+  function rowLabelAllEvasion(row) {
+    var lab = rowLabel(row);
+    if (!lab) return false;
+    var low = lab.toLowerCase();
+    return (
+      low.indexOf("all evasion") !== -1 ||
+      low.indexOf("все уклонения") !== -1
+    );
+  }
+
   function run() {
-    clearPatches();
-    clearStatKeys();
     syncTipClear();
+    var bonusAttr =
+      document.documentElement.getAttribute("data-rql-mastery-bonuses") || "";
+    if (bonusAttr !== lastBonusAttrForPatch) {
+      lastBonusAttrForPatch = bonusAttr;
+      clearPatches();
+      clearStatKeys();
+    }
     var totals = attrJSON("data-rql-mastery-bonuses") || {};
-    var statKeys = Object.keys(totals);
-    if (!statKeys.length) return;
+    var statKeys = sortStatKeysForPatch(Object.keys(totals));
+    if (!statKeys.length) {
+      clearPatches();
+      clearStatKeys();
+      return;
+    }
     var rows = document.querySelectorAll(ROW_SEL);
-    var used = Object.create(null);
+    var ri;
+
+    var evasionSum =
+      (totals.melee_evasion || 0) +
+      (totals.ranged_evasion || 0) +
+      (totals.magic_evasion || 0);
+    var evasionConsumed = false;
+    if (evasionSum !== 0 && !isNaN(evasionSum)) {
+      for (ri = 0; ri < rows.length; ri++) {
+        var rowAe = rows[ri];
+        if (inBlockedPatch(rowAe) || rowAe.children.length < 2) continue;
+        if (rowLabelAllEvasion(rowAe)) {
+          if (patchRow(rowAe, "melee_evasion", evasionSum)) {
+            evasionConsumed = true;
+          }
+        }
+      }
+    }
+
     var si;
     for (si = 0; si < statKeys.length; si++) {
       var sk = statKeys[si];
       var bonus = totals[sk];
       if (typeof bonus !== "number" || bonus === 0 || isNaN(bonus)) continue;
-      var ri;
+      if (
+        evasionConsumed &&
+        (sk === "melee_evasion" ||
+          sk === "ranged_evasion" ||
+          sk === "magic_evasion")
+      ) {
+        continue;
+      }
       for (ri = 0; ri < rows.length; ri++) {
-        if (used[ri]) continue;
         var row = rows[ri];
-        if (inOverlay(row) || row.children.length < 2) continue;
+        if (inBlockedPatch(row) || row.children.length < 2) continue;
         if (rowMatches(row, sk)) {
           patchRow(row, sk, bonus);
-          used[ri] = true;
-          break;
         }
       }
     }
@@ -512,12 +725,9 @@
   try {
     new MutationObserver(sched).observe(nuxt, {
       subtree: true,
-      childList: true,
-      characterData: true,
-      characterDataOldValue: false
+      childList: true
     });
   } catch (_n) {}
 
-  setInterval(sched, 2500);
   sched();
 })();

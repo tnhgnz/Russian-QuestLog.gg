@@ -1,15 +1,7 @@
 (function () {
   "use strict";
-
-  /**
-   * MAIN world: data-rql-weapon-keys на document.documentElement (JSON-массив до 2 ключей).
-   * Только DOM: первые 2 ячейки div.grid.grid-cols-3; предмет — img внутри div.isolate.p-4
-   * с путём …/Equip/Weapon/… (без Pinia и без обхода всей страницы).
-   */
-
   var ATTR = "data-rql-weapon-keys";
 
-  /** Порядок: crossbow раньше longbow (оба содержат «bow»). */
   var WEAPON_DETECT = [
     { key: "shield", re: /shield|buckler/i },
     { key: "greatsword", re: /greatsword|great_sword|sword2h|sword_2h|2h.*sword|gargantuan.*sword/i },
@@ -18,6 +10,7 @@
     { key: "staff", re: /\/staff|_staff|staff\.webp|staff[^a-z]/i },
     { key: "wand", re: /\/wand|_wand|wand\.webp|wand[^a-z]/i },
     { key: "dagger", re: /dagger|dag_|knife/i },
+    { key: "spear", re: /spear|polearm|halberd|ranseur|lance|pike|javelin|it_p_spear|weapon_spear|sw2/i },
   ];
 
   function classifyCombined(alt, src) {
