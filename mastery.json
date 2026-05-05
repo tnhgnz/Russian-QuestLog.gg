@@ -1,0 +1,1738 @@
+{
+  "shield": {
+    "rootBonus": {
+      "title": "Skillful Block",
+      "img": "icons/mastery/shield.png",
+      "stats": {
+        "shield_block_chance_bonus": 8
+      }
+    },
+    "branches": [
+      {
+        "branch_title": "Provoke & Counter",
+        "branch_bonuses": [
+          {
+            "title": "Melee Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_defense": 40
+            }
+          },
+          {
+            "title": "Health Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "health_regen": 14
+            }
+          },
+          {
+            "title": "Decayed Sword God",
+            "img": "icons/mastery/shield_utility1.png",
+            "stats": {
+              "weaken_chance": 75
+            }
+          },
+          {
+            "title": "Max Health",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_health": 280
+            }
+          },
+          {
+            "title": "All Evasion",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_evasion": 40,
+              "ranged_evasion": 40,
+              "magic_evasion": 40
+            }
+          },
+          {
+            "title": "Impregnable Stance",
+            "img": "icons/mastery/shield_utility2.png",
+            "stats": {
+              "shield_block_chance": 8
+            }
+          },
+          {
+            "title": "Buff Duration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "buff_duration": 6
+            }
+          },
+          {
+            "title": "Damage Reduction",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "damage_reduction": 6
+            }
+          },
+          {
+            "title": "Indomitable Spirit",
+            "img": "icons/mastery/shield_utility3.png",
+            "stats": {
+              "stun_resistance": 125
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Boss",
+        "branch_bonuses": [
+          {
+            "title": "Melee Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 20
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 4
+            }
+          },
+          {
+            "title": "Undefeated Perseverance",
+            "img": "icons/mastery/shield_utility1.png",
+            "stats": {
+              "boss_endurance": 120
+            }
+          },
+          {
+            "title": "Max Health",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_health": 280
+            }
+          },
+          {
+            "title": "Stun Resistance",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "stun_resistance": 48
+            }
+          },
+          {
+            "title": "Desperate Evasion",
+            "img": "icons/mastery/shield_utility2.png",
+            "stats": {
+              "boss_evasion": 50
+            }
+          },
+          {
+            "title": "Mana Cost Efficiency",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_cost_efficiency": 6
+            }
+          },
+          {
+            "title": "Melee Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 60
+            }
+          },
+          {
+            "title": "Subjugator's Punishment",
+            "img": "icons/mastery/shield_utility3.png",
+            "stats": {
+              "boss_damage_bonus": 49
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Collision",
+        "branch_bonuses": [
+          {
+            "title": "Max Health",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_health": 140
+            }
+          },
+          {
+            "title": "Melee Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 20
+            }
+          },
+          {
+            "title": "Calculated Rush",
+            "img": "icons/mastery/shield_utility1.png",
+            "stats": {
+              "collision_chance": 75
+            }
+          },
+          {
+            "title": "Damage Reduction",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "damage_reduction": 4
+            }
+          },
+          {
+            "title": "Weaken Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "weaken_chance": 48
+            }
+          },
+          {
+            "title": "Steely Physique",
+            "img": "icons/mastery/shield_utility2.png",
+            "stats": {
+              "collision_resistance": 100
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 12
+            }
+          },
+          {
+            "title": "Melee Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_defense": 120
+            }
+          },
+          {
+            "title": "Blade of Rage",
+            "img": "icons/mastery/shield_utility3.png",
+            "stats": {
+              "cooldown_speed": 5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "greatsword": {
+    "rootBonus": {
+      "title": "Skilled Vitality",
+      "img": "icons/mastery/greatsword.png",
+      "stats": {
+        "health_regen": 56
+      }
+    },
+    "branches": [
+      {
+        "branch_title": "Charge",
+        "branch_bonuses": [
+          {
+            "title": "Ranged Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "ranged_defense": 40
+            }
+          },
+          {
+            "title": "Melee Evasion",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_evasion": 40
+            }
+          },
+          {
+            "title": "Passionate Cheer",
+            "img": "icons/mastery/greatsword_utility1.png",
+            "stats": {
+              "amitoi_heal": 6
+            }
+          },
+          {
+            "title": "Max Health",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_health": 280
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 2
+            }
+          },
+          {
+            "title": "Overcome Snare",
+            "img": "icons/mastery/greatsword_utility2.png",
+            "stats": {
+              "bind_resistance": 100
+            }
+          },
+          {
+            "title": "Buff Duration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "buff_duration": 6
+            }
+          },
+          {
+            "title": "Skill Damage Resistance",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "skill_damage_resistance": 60
+            }
+          },
+          {
+            "title": "Bold Steps",
+            "img": "icons/mastery/greatsword_utility3.png",
+            "stats": {
+              "move_speed_bonus": 6.5
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Incapacitate",
+        "branch_bonuses": [
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 14
+            }
+          },
+          {
+            "title": "Melee Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 20
+            }
+          },
+          {
+            "title": "Ultimate Impact",
+            "img": "icons/mastery/greatsword_utility1.png",
+            "stats": {
+              "stun_chance": 75
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 8
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 28
+            }
+          },
+          {
+            "title": "Complete Stun",
+            "img": "icons/mastery/greatsword_utility2.png",
+            "stats": {
+              "stun_duration": 1
+            }
+          },
+          {
+            "title": "Melee Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 60
+            }
+          },
+          {
+            "title": "Stun Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "stun_chance": 72
+            }
+          },
+          {
+            "title": "Firm Resolution",
+            "img": "icons/mastery/greatsword_utility3.png",
+            "stats": {
+              "cooldown_speed": 5
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Face Off",
+        "branch_bonuses": [
+          {
+            "title": "Melee Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 20
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 4
+            }
+          },
+          {
+            "title": "Rough and Wild",
+            "img": "icons/mastery/greatsword_utility1.png",
+            "stats": {
+              "damage_bonus": 6
+            }
+          },
+          {
+            "title": "Melee Critical Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_critical_hit": 40
+            }
+          },
+          {
+            "title": "Mana Cost Efficiency",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_cost_efficiency": 4
+            }
+          },
+          {
+            "title": "Fierce Attack",
+            "img": "icons/mastery/greatsword_utility2.png",
+            "stats": {
+              "attack_speed_bonus": 5
+            }
+          },
+          {
+            "title": "Skill Damage Boost",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "skill_damage_boost": 30
+            }
+          },
+          {
+            "title": "Melee Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 60
+            }
+          },
+          {
+            "title": "Fierce Glare",
+            "img": "icons/mastery/greatsword_utility3.png",
+            "stats": {
+              "melee_heavy_attack_chance": 100
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "longbow": {
+    "rootBonus": {
+      "title": "Harmonious Mind",
+      "img": "icons/mastery/longbow.png",
+      "stats": {
+        "mana_regen": 56
+      }
+    },
+    "branches": [
+      {
+        "branch_title": "Support",
+        "branch_bonuses": [
+          {
+            "title": "Max Health",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_health": 140
+            }
+          },
+          {
+            "title": "Magic Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "magic_defense": 40
+            }
+          },
+          {
+            "title": "Vitality of Dew",
+            "img": "icons/mastery/longbow_utility1.png",
+            "stats": {
+              "health_regen": 42
+            }
+          },
+          {
+            "title": "Move Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "move_speed_bonus": 2.4
+            }
+          },
+          {
+            "title": "Buff Duration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "buff_duration": 4
+            }
+          },
+          {
+            "title": "Anti-magic Arts",
+            "img": "icons/mastery/longbow_utility2.png",
+            "stats": {
+              "skill_damage_resistance": 80
+            }
+          },
+          {
+            "title": "Magic Evasion",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "magic_evasion": 120
+            }
+          },
+          {
+            "title": "Perception",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "perception": 2
+            }
+          },
+          {
+            "title": "Grace Song",
+            "img": "icons/mastery/longbow_utility3.png",
+            "stats": {
+              "bind_resistance": 37.5,
+              "petrification_resistance": 37.5,
+              "stun_resistance": 37.5,
+              "weaken_resistance": 37.5,
+              "sleep_resistance": 37.5
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Check",
+        "branch_bonuses": [
+          {
+            "title": "Ranged Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "ranged_hit": 20
+            }
+          },
+          {
+            "title": "Move Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "move_speed_bonus": 1.2
+            }
+          },
+          {
+            "title": "Wedge of Oppression",
+            "img": "icons/mastery/longbow_utility1.png",
+            "stats": {
+              "bind_chance": 75
+            }
+          },
+          {
+            "title": "Max Mana",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_mana": 280
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 28
+            }
+          },
+          {
+            "title": "Gale Arrowhead",
+            "img": "icons/mastery/longbow_utility2.png",
+            "stats": {
+              "cooldown_speed": 4
+            }
+          },
+          {
+            "title": "Range Up",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "bonus_range": 6
+            }
+          },
+          {
+            "title": "Mana Cost Efficiency",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_cost_efficiency": 6
+            }
+          },
+          {
+            "title": "Phantom Snare",
+            "img": "icons/mastery/longbow_utility3.png",
+            "stats": {
+              "bind_duration": 1
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Sniping",
+        "branch_bonuses": [
+          {
+            "title": "Ranged Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "ranged_hit": 20
+            }
+          },
+          {
+            "title": "Ranged Crit Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "ranged_critical_hit": 20
+            }
+          },
+          {
+            "title": "Pointy Thorns",
+            "img": "icons/mastery/longbow_utility1.png",
+            "stats": {
+              "main_max_damage": 12
+            }
+          },
+          {
+            "title": "Damage Bonus",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "damage_bonus": 4
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 8
+            }
+          },
+          {
+            "title": "Critical Nock",
+            "img": "icons/mastery/longbow_utility2.png",
+            "stats": {
+              "skill_damage_boost": 40
+            }
+          },
+          {
+            "title": "Attack Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "attack_speed_bonus": 3.6
+            }
+          },
+          {
+            "title": "Ranged Crit Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "ranged_critical_hit": 60
+            }
+          },
+          {
+            "title": "Brutal Shooter",
+            "img": "icons/mastery/longbow_utility3.png",
+            "stats": {
+              "critical_damage": 10
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "crossbow": {
+    "rootBonus": {
+      "title": "Mystical Regen",
+      "img": "icons/mastery/crossbow.png",
+      "stats": {
+        "mana_regen": 56
+      }
+    },
+    "branches": [
+      {
+        "branch_title": "Regen",
+        "branch_bonuses": [
+          {
+            "title": "Health Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "health_regen": 14
+            }
+          },
+          {
+            "title": "Magic Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "magic_defense": 40
+            }
+          },
+          {
+            "title": "Dynamic Duo",
+            "img": "icons/mastery/crossbow_utility1.png",
+            "stats": {
+              "amitoi_heal": 30
+            }
+          },
+          {
+            "title": "Max Health",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_health": 280
+            }
+          },
+          {
+            "title": "Magic Endurance",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "magic_endurance": 40
+            }
+          },
+          {
+            "title": "Ultimate Healing",
+            "img": "icons/mastery/crossbow_utility2.png",
+            "stats": {
+              "health_regen": 56
+            }
+          },
+          {
+            "title": "Debuff Duration",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "debuff_duration": 6
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 3
+            }
+          },
+          {
+            "title": "Refined Touch",
+            "img": "icons/mastery/crossbow_utility3.png",
+            "stats": {
+              "mana_cost_efficiency": 10
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Move",
+        "branch_bonuses": [
+          {
+            "title": "Ranged Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "ranged_hit": 20
+            }
+          },
+          {
+            "title": "Mana Regeneration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 14
+            }
+          },
+          {
+            "title": "Calm Aim",
+            "img": "icons/mastery/crossbow_utility1.png",
+            "stats": {
+              "ranged_heavy_attack_chance": 60
+            }
+          },
+          {
+            "title": "Weaken Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "weaken_chance": 48
+            }
+          },
+          {
+            "title": "Mana Cost Efficiency",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_cost_efficiency": 4
+            }
+          },
+          {
+            "title": "Cold Vision",
+            "img": "icons/mastery/crossbow_utility2.png",
+            "stats": {
+              "ranged_hit": 80
+            }
+          },
+          {
+            "title": "Magic Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "magic_defense": 120
+            }
+          },
+          {
+            "title": "Ranged Critical Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "ranged_critical_hit": 60
+            }
+          },
+          {
+            "title": "Quick Steps",
+            "img": "icons/mastery/crossbow_utility3.png",
+            "stats": {
+              "move_speed_bonus": 6.5
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Collision",
+        "branch_bonuses": [
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 4
+            }
+          },
+          {
+            "title": "Skill Damage Boost",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "skill_damage_boost": 10
+            }
+          },
+          {
+            "title": "Cold Rage",
+            "img": "icons/mastery/crossbow_utility1.png",
+            "stats": {
+              "off_hand_weapon_attack_chance_bonus": 6
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 8
+            }
+          },
+          {
+            "title": "Buff Duration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "buff_duration": 4
+            }
+          },
+          {
+            "title": "Rapid-Fire",
+            "img": "icons/mastery/crossbow_utility2.png",
+            "stats": {
+              "attack_speed_bonus": 5
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 3
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 42
+            }
+          },
+          {
+            "title": "Brutal Wound",
+            "img": "icons/mastery/crossbow_utility3.png",
+            "stats": {
+              "ranged_damage_dealt": 5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "staff": {
+    "rootBonus": {
+      "title": "Radiant Composure",
+      "img": "icons/mastery/staff.png",
+      "stats": {
+        "mana_regen": 56
+      }
+    },
+    "branches": [
+      {
+        "branch_title": "Mana",
+        "branch_bonuses": [
+          {
+            "title": "Melee Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_defense": 40
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 14
+            }
+          },
+          {
+            "title": "Spell Flexibility",
+            "img": "icons/mastery/staff_utility1.png",
+            "stats": {
+              "mana_cost_efficiency": 6
+            }
+          },
+          {
+            "title": "Magic Hit",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "magic_hit": 40
+            }
+          },
+          {
+            "title": "All Evasion",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_evasion": 40,
+              "ranged_evasion": 40,
+              "magic_evasion": 40
+            }
+          },
+          {
+            "title": "Mana Blessing",
+            "img": "icons/mastery/staff_utility2.png",
+            "stats": {
+              "mana_regen": 56
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 42
+            }
+          },
+          {
+            "title": "Melee Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_defense": 120
+            }
+          },
+          {
+            "title": "Reverberation Shield",
+            "img": "icons/mastery/staff_utility3.png",
+            "stats": {
+              "silence_resistance": 125
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Destroy",
+        "branch_bonuses": [
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 4
+            }
+          },
+          {
+            "title": "Magic Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "magic_hit": 20
+            }
+          },
+          {
+            "title": "Fatal Incantation",
+            "img": "icons/mastery/staff_utility1.png",
+            "stats": {
+              "magic_critical_hit": 60
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 8
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 28
+            }
+          },
+          {
+            "title": "Mana Intensification",
+            "img": "icons/mastery/staff_utility2.png",
+            "stats": {
+              "skill_damage_boost": 40
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 3
+            }
+          },
+          {
+            "title": "Damage Bonus",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "damage_bonus": 6
+            }
+          },
+          {
+            "title": "Strange Spacetime",
+            "img": "icons/mastery/staff_utility3.png",
+            "stats": {
+              "cooldown_speed": 5
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Attribute",
+        "branch_bonuses": [
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 14
+            }
+          },
+          {
+            "title": "Weaken Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "weaken_chance": 24
+            }
+          },
+          {
+            "title": "Flame Wound",
+            "img": "icons/mastery/staff_utility1.png",
+            "stats": {
+              "burning_damage": 10
+            }
+          },
+          {
+            "title": "Max Mana",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_mana": 280
+            }
+          },
+          {
+            "title": "Magic Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "magic_hit": 40
+            }
+          },
+          {
+            "title": "Ignition Booster",
+            "img": "icons/mastery/staff_utility2.png",
+            "stats": {
+              "burning_chance": 5
+            }
+          },
+          {
+            "title": "Weaken Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "weaken_chance": 72
+            }
+          },
+          {
+            "title": "Wisdom",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "wisdom": 2
+            }
+          },
+          {
+            "title": "Brutal Destruction",
+            "img": "icons/mastery/staff_utility3.png",
+            "stats": {
+              "magic_damage_dealt": 5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "wand": {
+    "rootBonus": {
+      "title": "Pure Healing",
+      "img": "icons/mastery/wand.png",
+      "stats": {
+        "skill_heal_bonus": 8
+      }
+    },
+    "branches": [
+      {
+        "branch_title": "Damage",
+        "branch_bonuses": [
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 4
+            }
+          },
+          {
+            "title": "Damage Bonus",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "damage_bonus": 2
+            }
+          },
+          {
+            "title": "Witch's Contract",
+            "img": "icons/mastery/wand_utility1.png",
+            "stats": {
+              "curse_damage": 6
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 8
+            }
+          },
+          {
+            "title": "Range Up",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "bonus_range": 4
+            }
+          },
+          {
+            "title": "Regenerative Meditation",
+            "img": "icons/mastery/wand_utility2.png",
+            "stats": {
+              "mana_regen": 56
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 3
+            }
+          },
+          {
+            "title": "Wisdom",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "wisdom": 2
+            }
+          },
+          {
+            "title": "Greedy Need",
+            "img": "icons/mastery/wand_utility3.png",
+            "stats": {
+              "cooldown_speed": 5
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Recovery",
+        "branch_bonuses": [
+          {
+            "title": "Melee Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_defense": 40
+            }
+          },
+          {
+            "title": "Attack Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "attack_speed_bonus": 1.2
+            }
+          },
+          {
+            "title": "Deep Pain",
+            "img": "icons/mastery/wand_utility1.png",
+            "stats": {
+              "magic_critical_hit": 60
+            }
+          },
+          {
+            "title": "All Evasion",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "melee_evasion": 40,
+              "ranged_evasion": 40,
+              "magic_evasion": 40
+            }
+          },
+          {
+            "title": "Range Up",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "bonus_range": 4
+            }
+          },
+          {
+            "title": "Redemptive Penance",
+            "img": "icons/mastery/wand_utility2.png",
+            "stats": {
+              "skill_heal_bonus": 8
+            }
+          },
+          {
+            "title": "Buff Duration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "buff_duration": 6
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 42
+            }
+          },
+          {
+            "title": "Merciless Wraith",
+            "img": "icons/mastery/wand_utility3.png",
+            "stats": {
+              "heavy_attack_chance": 100
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Weaken",
+        "branch_bonuses": [
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 14
+            }
+          },
+          {
+            "title": "Weaken Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "weaken_chance": 24
+            }
+          },
+          {
+            "title": "Spiritual Locus",
+            "img": "icons/mastery/wand_utility1.png",
+            "stats": {
+              "mana_cost_efficiency": 6
+            }
+          },
+          {
+            "title": "Max Mana",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_mana": 280
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 2
+            }
+          },
+          {
+            "title": "Time of the Curse",
+            "img": "icons/mastery/wand_utility2.png",
+            "stats": {
+              "curse_duration": 1
+            }
+          },
+          {
+            "title": "Weaken Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "weaken_chance": 72
+            }
+          },
+          {
+            "title": "Magic Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "magic_hit": 60
+            }
+          },
+          {
+            "title": "Spell of Retribution",
+            "img": "icons/mastery/wand_utility3.png",
+            "stats": {
+              "skill_damage_boost": 50
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "dagger": {
+    "rootBonus": {
+      "title": "Silent Dash",
+      "img": "icons/mastery/dagger.png",
+      "stats": {
+        "move_speed_bonus": 5
+      }
+    },
+    "branches": [
+      {
+        "branch_title": "Disguise",
+        "branch_bonuses": [
+          {
+            "title": "Ranged Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "ranged_defense": 40
+            }
+          },
+          {
+            "title": "Health Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "health_regen": 14
+            }
+          },
+          {
+            "title": "Debuff Immunity",
+            "img": "icons/mastery/dagger_utility1.png",
+            "stats": {
+              "debuff_duration": 6
+            }
+          },
+          {
+            "title": "Mana Cost Efficiency",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_cost_efficiency": 4
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 2
+            }
+          },
+          {
+            "title": "Master of Evasion",
+            "img": "icons/mastery/dagger_utility2.png",
+            "stats": {
+              "melee_evasion": 105,
+              "ranged_evasion": 105,
+              "magic_evasion": 105
+            }
+          },
+          {
+            "title": "Buff Duration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "buff_duration": 6
+            }
+          },
+          {
+            "title": "Ranged Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "ranged_defense": 120
+            }
+          },
+          {
+            "title": "Strong Will",
+            "img": "icons/mastery/dagger_utility3.png",
+            "stats": {
+              "weaken_resistance": 125
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Poison",
+        "branch_bonuses": [
+          {
+            "title": "Melee Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 20
+            }
+          },
+          {
+            "title": "Off-Hand Weapon Attack Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "off_hand_weapon_attack_chance_bonus": 1.5
+            }
+          },
+          {
+            "title": "Enfeebling Terror",
+            "img": "icons/mastery/dagger_utility1.png",
+            "stats": {
+              "weaken_chance": 75
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 28
+            }
+          },
+          {
+            "title": "Buff Duration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "buff_duration": 4
+            }
+          },
+          {
+            "title": "Sorrowful Silence",
+            "img": "icons/mastery/dagger_utility2.png",
+            "stats": {
+              "silence_chance": 100
+            }
+          },
+          {
+            "title": "Mana Cost Efficiency",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_cost_efficiency": 6
+            }
+          },
+          {
+            "title": "Melee Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 60
+            }
+          },
+          {
+            "title": "Shrewd Judgment",
+            "img": "icons/mastery/dagger_utility3.png",
+            "stats": {
+              "cooldown_speed": 5
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Assassination",
+        "branch_bonuses": [
+          {
+            "title": "Melee Critical Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_critical_hit": 20
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 4
+            }
+          },
+          {
+            "title": "Ambidexterity",
+            "img": "icons/mastery/dagger_utility1.png",
+            "stats": {
+              "off_hand_weapon_attack_chance_bonus": 6
+            }
+          },
+          {
+            "title": "Melee Critical Hit",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_critical_hit": 40
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 2
+            }
+          },
+          {
+            "title": "Deep Grudge",
+            "img": "icons/mastery/dagger_utility2.png",
+            "stats": {
+              "critical_damage": 8
+            }
+          },
+          {
+            "title": "Base Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 12
+            }
+          },
+          {
+            "title": "Skill Damage Boost",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "skill_damage_boost": 30
+            }
+          },
+          {
+            "title": "Maddening Excitement",
+            "img": "icons/mastery/dagger_utility3.png",
+            "stats": {
+              "attack_speed_bonus": 6.5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "spear": {
+    "rootBonus": {
+      "title": "Steel Stance",
+      "img": "icons/mastery/spear.png",
+      "stats": {
+        "damage_reduction": 8
+      }
+    },
+    "branches": [
+      {
+        "branch_title": "Endurance",
+        "branch_bonuses": [
+          {
+            "title": "Ranged Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "ranged_defense": 40
+            }
+          },
+          {
+            "title": "Magic Defense",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "magic_defense": 40
+            }
+          },
+          {
+            "title": "Piercing Spear",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "shield_block_chance_penetration": 8
+            }
+          },
+          {
+            "title": "All Evasion",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "melee_evasion": 40,
+              "ranged_evasion": 40,
+              "magic_evasion": 40
+            }
+          },
+          {
+            "title": "Cooldown Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "cooldown_speed": 2
+            }
+          },
+          {
+            "title": "Unyielding Determination",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "melee_endurance": 105,
+              "ranged_endurance": 105,
+              "magic_endurance": 105
+            }
+          },
+          {
+            "title": "Max Health",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_health": 280
+            }
+          },
+          {
+            "title": "Debuff Duration",
+            "img": "icons/mastery/defense_img.png",
+            "stats": {
+              "debuff_duration": 6
+            }
+          },
+          {
+            "title": "Steady Charge",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "move_speed_bonus": 6.5
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Annihilation",
+        "branch_bonuses": [
+          {
+            "title": "Melee Critical Hit Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_critical_hit": 40
+            }
+          },
+          {
+            "title": "Mana Regen",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_regen": 14
+            }
+          },
+          {
+            "title": "Skillful Path",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "cc_chance": 50
+            }
+          },
+          {
+            "title": "Bonus Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "damage_bonus": 4
+            }
+          },
+          {
+            "title": "Buff Duration",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "buff_duration": 6
+            }
+          },
+          {
+            "title": "Intense Flames",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "burning_damage": 10
+            }
+          },
+          {
+            "title": "Max Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 8
+            }
+          },
+          {
+            "title": "Melee Hit Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 60
+            }
+          },
+          {
+            "title": "Will of Annihilation",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "skill_damage_boost": 50
+            }
+          }
+        ]
+      },
+      {
+        "branch_title": "Momentum",
+        "branch_bonuses": [
+          {
+            "title": "Melee Hit Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_hit": 20
+            }
+          },
+          {
+            "title": "Movement Speed",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "move_speed_bonus": 2.4
+            }
+          },
+          {
+            "title": "Overprepared",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "cooldown_speed": 3
+            }
+          },
+          {
+            "title": "Max Mana",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "max_mana": 280
+            }
+          },
+          {
+            "title": "Max Damage",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "main_max_damage": 4
+            }
+          },
+          {
+            "title": "Unshakable Mind",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "skill_damage_resistance": 80
+            }
+          },
+          {
+            "title": "Mana Cost Efficiency",
+            "img": "icons/mastery/support_img.png",
+            "stats": {
+              "mana_cost_efficiency": 6
+            }
+          },
+          {
+            "title": "Melee Critical Hit Chance",
+            "img": "icons/mastery/attack_img.png",
+            "stats": {
+              "melee_critical_hit": 60
+            }
+          },
+          {
+            "title": "Nature's Gamble",
+            "img": "icons/mastery/spear.png",
+            "stats": {
+              "attack_speed_bonus": 6.5
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

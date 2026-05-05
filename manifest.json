@@ -1,0 +1,73 @@
+{
+  "manifest_version": 3,
+  "name": "RussianQuestLog",
+  "version": "7.7",
+  "description": "QuestLog.gg патч Русского Throne and Liberty \nhttps://www.twitch.tv/tnhgnz\nhttps://www.youtube.com/@Tnhgnz",
+  "icons": {
+    "16": "icons/icon.png",
+    "32": "icons/icon.png",
+    "48": "icons/icon.png",
+    "128": "icons/icon.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon.png",
+      "32": "icons/icon.png",
+      "48": "icons/icon.png",
+      "128": "icons/icon.png"
+    },
+    "default_title": "RussianQuestLog — Tnhgnz"
+  },
+  "background": {
+    "service_worker": "rql-bridge-sw.js"
+  },
+  "permissions": ["storage", "alarms"],
+  "host_permissions": ["https://api.github.com/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["mastery.json", "runes/t2.json", "runes/t3.json", "icons/mastery/*"],
+      "matches": ["https://questlog.gg/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*/db/*"],
+      "js": ["db-fix.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
+      "js": ["rql-rune-bootstrap.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
+      "js": ["intercept.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
+      "js": ["dom-hide.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
+      "js": ["rql-mastery-pinia-bridge.js"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*/character-builder/*"],
+      "js": ["rql-mastery-modal.js", "rql-mastery-stat-patch.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://questlog.gg/throne-and-liberty/*"],
+      "js": ["outdated-banner.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

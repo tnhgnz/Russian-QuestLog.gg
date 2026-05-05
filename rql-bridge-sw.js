@@ -1,0 +1,1 @@
+importScripts("release-check.js");
