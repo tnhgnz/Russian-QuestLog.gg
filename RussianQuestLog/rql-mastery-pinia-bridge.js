@@ -6,7 +6,7 @@
     { key: "shield", re: /shield|buckler/i },
     { key: "greatsword", re: /greatsword|great_sword|sword2h|sword_2h|2h.*sword|gargantuan.*sword/i },
     { key: "crossbow", re: /crossbow|cross_bow|arbalest/i },
-    { key: "longbow", re: /longbow|long_bow/i },
+    { key: "longbow", re: /longbow|long_bow|netherbow|tevent'?s.*arc.*wailing.*death/i },
     { key: "staff", re: /\/staff|_staff|staff\.webp|staff[^a-z]/i },
     { key: "wand", re: /\/wand|_wand|wand\.webp|wand[^a-z]/i },
     { key: "dagger", re: /dagger|dag_|knife/i },
