@@ -133,9 +133,38 @@
     }
   }
 
+  function nullArmorCategoryOnGameItems(node) {
+    if (node === null || typeof node !== "object") {
+      return;
+    }
+    if (Array.isArray(node)) {
+      var i;
+      for (i = 0; i < node.length; i++) {
+        nullArmorCategoryOnGameItems(node[i]);
+      }
+      return;
+    }
+    if (
+      looksLikeGameItem(node) &&
+      Object.prototype.hasOwnProperty.call(node, "armorCategory")
+    ) {
+      node.armorCategory = null;
+    }
+    for (var key in node) {
+      if (!Object.prototype.hasOwnProperty.call(node, key)) {
+        continue;
+      }
+      var val = node[key];
+      if (val !== null && typeof val === "object") {
+        nullArmorCategoryOnGameItems(val);
+      }
+    }
+  }
+
   function filterApiJson(json) {
     try {
       visit(json, null);
+      nullArmorCategoryOnGameItems(json);
       var data = json && json.result && json.result.data;
       if (data) {
         syncFacetDistribution(data);

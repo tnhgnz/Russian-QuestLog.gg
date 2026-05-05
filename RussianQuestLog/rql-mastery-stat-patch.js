@@ -253,21 +253,6 @@
     return isNaN(n) ? NaN : n;
   }
 
-  function numNear(a, b) {
-    if (
-      typeof a !== "number" ||
-      typeof b !== "number" ||
-      !isFinite(a) ||
-      !isFinite(b)
-    ) {
-      return false;
-    }
-    var d = Math.abs(a - b);
-    if (d < 1e-4) return true;
-    var s = Math.max(Math.abs(a), Math.abs(b), 1e-6);
-    return d / s < 1e-6;
-  }
-
   function fmtNum(n) {
     if (typeof n !== "number" || !isFinite(n)) return "0";
     var r = Math.round(n * 1e6) / 1e6;
@@ -309,22 +294,18 @@
     var pct = sp.getAttribute("data-rql-mastery-pct") === "1";
     var baseStr = sp.getAttribute("data-rql-mastery-base");
     var live = parseNum(sp.textContent);
-    var base = parseFloat(baseStr);
     sp.removeAttribute("data-rql-mastery-add");
     sp.removeAttribute("data-rql-mastery-key");
     sp.removeAttribute("data-rql-mastery-pct");
     sp.removeAttribute("data-rql-mastery-base");
-    if (isNaN(add)) return;
-    var naked;
-    if (!isNaN(base) && !isNaN(live) && numNear(live, base + add)) {
-      naked = base;
-    } else if (!isNaN(live)) {
-      naked = live;
-    } else if (!isNaN(base)) {
-      naked = base;
-    } else {
+    var base = parseFloat(baseStr);
+    if (!isNaN(base)) {
+      var bv = fmtNum(base);
+      sp.textContent = pct ? bv + "%" : bv;
       return;
     }
+    if (isNaN(add) || isNaN(live)) return;
+    var naked = live - add;
     var v = fmtNum(naked);
     sp.textContent = pct ? v + "%" : v;
   }
@@ -351,6 +332,14 @@
     var vi;
     for (vi = 0; vi < spans.length; vi++) {
       var sp = spans[vi];
+      if (
+        sp.getAttribute("data-rql-mastery-key") === sk &&
+        sp.getAttribute("data-rql-mastery-add") === appliedStr &&
+        sp.getAttribute("data-rql-mastery-base") != null
+      ) {
+        patched = true;
+        continue;
+      }
       var baseStr = sp.getAttribute("data-rql-mastery-base");
       var g = parseFloat(baseStr);
       if (isNaN(g)) {
@@ -619,7 +608,7 @@
     }).observe(document.body, { childList: true, subtree: true });
   } catch (_m) {}
 
-  var rqlMuteNuxtMutations = false;
+  var lastBonusAttrForPatch = null;
 
   function sortStatKeysForPatch(keys) {
     var pri = {
@@ -648,82 +637,59 @@
   }
 
   function run() {
-    rqlMuteNuxtMutations = true;
-    try {
+    syncTipClear();
+    var bonusAttr =
+      document.documentElement.getAttribute("data-rql-mastery-bonuses") || "";
+    if (bonusAttr !== lastBonusAttrForPatch) {
+      lastBonusAttrForPatch = bonusAttr;
       clearPatches();
       clearStatKeys();
-      syncTipClear();
-      var totals = attrJSON("data-rql-mastery-bonuses") || {};
-      var statKeys = sortStatKeysForPatch(Object.keys(totals));
-      if (!statKeys.length) {
-        return;
-      }
-      var rows = document.querySelectorAll(ROW_SEL);
-      var ri;
-
-      var evasionSum =
-        (totals.melee_evasion || 0) +
-        (totals.ranged_evasion || 0) +
-        (totals.magic_evasion || 0);
-      var evasionConsumed = false;
-      if (evasionSum !== 0 && !isNaN(evasionSum)) {
-        for (ri = 0; ri < rows.length; ri++) {
-          var rowAe = rows[ri];
-          if (inBlockedPatch(rowAe) || rowAe.children.length < 2) continue;
-          if (rowLabelAllEvasion(rowAe)) {
-            if (patchRow(rowAe, "melee_evasion", evasionSum)) {
-              evasionConsumed = true;
-            }
-          }
-        }
-      }
-
-      var si;
-      for (si = 0; si < statKeys.length; si++) {
-        var sk = statKeys[si];
-        var bonus = totals[sk];
-        if (typeof bonus !== "number" || bonus === 0 || isNaN(bonus)) continue;
-        if (
-          evasionConsumed &&
-          (sk === "melee_evasion" ||
-            sk === "ranged_evasion" ||
-            sk === "magic_evasion")
-        ) {
-          continue;
-        }
-        for (ri = 0; ri < rows.length; ri++) {
-          var row = rows[ri];
-          if (inBlockedPatch(row) || row.children.length < 2) continue;
-          if (rowMatches(row, sk)) {
-            patchRow(row, sk, bonus);
-          }
-        }
-      }
-    } finally {
-      rqlMuteNuxtMutations = false;
     }
-  }
+    var totals = attrJSON("data-rql-mastery-bonuses") || {};
+    var statKeys = sortStatKeysForPatch(Object.keys(totals));
+    if (!statKeys.length) {
+      clearPatches();
+      clearStatKeys();
+      return;
+    }
+    var rows = document.querySelectorAll(ROW_SEL);
+    var ri;
 
-  function nuxtPatchMutationSched(recs) {
-    if (rqlMuteNuxtMutations) return;
-    var i;
-    for (i = 0; i < recs.length; i++) {
-      var r = recs[i];
-      if (r.type === "childList") {
-        sched();
-        return;
+    var evasionSum =
+      (totals.melee_evasion || 0) +
+      (totals.ranged_evasion || 0) +
+      (totals.magic_evasion || 0);
+    var evasionConsumed = false;
+    if (evasionSum !== 0 && !isNaN(evasionSum)) {
+      for (ri = 0; ri < rows.length; ri++) {
+        var rowAe = rows[ri];
+        if (inBlockedPatch(rowAe) || rowAe.children.length < 2) continue;
+        if (rowLabelAllEvasion(rowAe)) {
+          if (patchRow(rowAe, "melee_evasion", evasionSum)) {
+            evasionConsumed = true;
+          }
+        }
       }
-      if (r.type === "characterData") {
-        var t = r.target;
-        var p = t && t.parentElement;
-        if (!p || !p.closest) continue;
-        if (
-          p.closest("div.justify-between.tabular-nums") ||
-          p.closest("div[data-draggable='true'].justify-between") ||
-          p.closest("div.justify-between[class*='border-t']")
-        ) {
-          sched();
-          return;
+    }
+
+    var si;
+    for (si = 0; si < statKeys.length; si++) {
+      var sk = statKeys[si];
+      var bonus = totals[sk];
+      if (typeof bonus !== "number" || bonus === 0 || isNaN(bonus)) continue;
+      if (
+        evasionConsumed &&
+        (sk === "melee_evasion" ||
+          sk === "ranged_evasion" ||
+          sk === "magic_evasion")
+      ) {
+        continue;
+      }
+      for (ri = 0; ri < rows.length; ri++) {
+        var row = rows[ri];
+        if (inBlockedPatch(row) || row.children.length < 2) continue;
+        if (rowMatches(row, sk)) {
+          patchRow(row, sk, bonus);
         }
       }
     }
@@ -757,10 +723,9 @@
 
   var nuxt = document.getElementById("__nuxt") || document.body;
   try {
-    new MutationObserver(nuxtPatchMutationSched).observe(nuxt, {
+    new MutationObserver(sched).observe(nuxt, {
       subtree: true,
-      childList: true,
-      characterData: true
+      childList: true
     });
   } catch (_n) {}
 
