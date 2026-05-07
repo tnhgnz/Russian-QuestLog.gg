@@ -1,0 +1,14 @@
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\bin\Release\net9.0\StripArmorCategory.exe
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\bin\Release\net9.0\StripArmorCategory.deps.json
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\bin\Release\net9.0\StripArmorCategory.runtimeconfig.json
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\bin\Release\net9.0\StripArmorCategory.dll
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\bin\Release\net9.0\StripArmorCategory.pdb
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\obj\Release\net9.0\StripArmorCategory.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\obj\Release\net9.0\StripArmorCategory.AssemblyInfoInputs.cache
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\obj\Release\net9.0\StripArmorCategory.AssemblyInfo.cs
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\obj\Release\net9.0\StripArmorCategory.csproj.CoreCompileInputs.cache
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\obj\Release\net9.0\StripArmorCategory.dll
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\obj\Release\net9.0\refint\StripArmorCategory.dll
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\obj\Release\net9.0\StripArmorCategory.pdb
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\obj\Release\net9.0\StripArmorCategory.genruntimeconfig.cache
+C:\Users\W4RPWISH\Desktop\TL\RussianQuestLog\tools\StripArmorCategory\obj\Release\net9.0\ref\StripArmorCategory.dll

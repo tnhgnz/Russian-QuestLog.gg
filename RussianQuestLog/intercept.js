@@ -161,7 +161,8 @@
     }
   }
 
-  function filterApiJson(json) {
+  /** Filters bundled rune synergies JSON only (grade / orb rules). */
+  function filterRuneSynergiesJson(json) {
     try {
       visit(json, null);
       nullArmorCategoryOnGameItems(json);
@@ -173,10 +174,6 @@
     } catch (_e) {
       return json;
     }
-  }
-
-  function looksLikeJsonContentType(ct) {
-    return typeof ct === "string" && ct.indexOf("application/json") !== -1;
   }
 
   function extractFetchUrl(args) {
@@ -202,9 +199,27 @@
     }
   }
 
+  function getItemsDbJsonUrl() {
+    try {
+      var el = document.documentElement;
+      if (!el) {
+        return "";
+      }
+      return el.getAttribute("data-rql-itemsdb-json") || "";
+    } catch (_e2) {
+      return "";
+    }
+  }
+
   function isRuneSynergiesApiUrl(url) {
     return (
       String(url).indexOf("characterBuilder.getRuneSynergies") !== -1
+    );
+  }
+
+  function isEquipmentItemsApiUrl(url) {
+    return (
+      String(url).indexOf("characterBuilder.getEquipmentItems") !== -1
     );
   }
 
@@ -212,6 +227,35 @@
   window.fetch = function fetchFiltered() {
     var args = arguments;
     var reqUrl = extractFetchUrl(args);
+
+    var itemsDbUrl = getItemsDbJsonUrl();
+    if (itemsDbUrl && isEquipmentItemsApiUrl(reqUrl)) {
+      return fetch(itemsDbUrl, { credentials: "omit", cache: "no-store" })
+        .then(function (lr) {
+          if (!lr.ok) {
+            return originalFetch.apply(this, args);
+          }
+          return lr.text();
+        })
+        .then(function (text) {
+          try {
+            JSON.parse(text);
+            return new Response(text, {
+              status: 200,
+              statusText: "OK",
+              headers: new Headers({
+                "content-type": "application/json",
+              }),
+            });
+          } catch (_e) {
+            return originalFetch.apply(this, args);
+          }
+        })
+        .catch(function () {
+          return originalFetch.apply(this, args);
+        });
+    }
+
     var localRunesUrl = getRuneSynergiesJsonUrl();
     if (localRunesUrl && isRuneSynergiesApiUrl(reqUrl)) {
       return fetch(localRunesUrl, { credentials: "omit", cache: "no-store" })
@@ -224,7 +268,7 @@
         .then(function (text) {
           try {
             var parsed = JSON.parse(text);
-            filterApiJson(parsed);
+            filterRuneSynergiesJson(parsed);
             return new Response(JSON.stringify(parsed), {
               status: 200,
               statusText: "OK",
@@ -240,90 +284,7 @@
           return originalFetch.apply(this, args);
         });
     }
-    return originalFetch.apply(this, args).then(function (response) {
-      var ct = response.headers.get("content-type") || "";
-      if (!looksLikeJsonContentType(ct) || response.status === 204) {
-        return response;
-      }
-      return response
-        .clone()
-        .text()
-        .then(function (text) {
-          try {
-            var parsed = JSON.parse(text);
-            filterApiJson(parsed);
-            return new Response(JSON.stringify(parsed), {
-              status: response.status,
-              statusText: response.statusText,
-              headers: response.headers,
-            });
-          } catch (_e) {
-            return response;
-          }
-        });
-    });
-  };
 
-  var XHR = XMLHttpRequest.prototype;
-  var originalOpen = XHR.open;
-  var originalSend = XHR.send;
-
-  XHR.open = function (method, url) {
-    this.__filterUrl = url;
-    return originalOpen.apply(this, arguments);
-  };
-
-  XHR.send = function () {
-    var xhr = this;
-    xhr.addEventListener(
-      "readystatechange",
-      function onReady() {
-        if (xhr.readyState !== 4) {
-          return;
-        }
-        xhr.removeEventListener("readystatechange", onReady);
-        try {
-          var ct = xhr.getResponseHeader("content-type") || "";
-          if (!looksLikeJsonContentType(ct)) {
-            return;
-          }
-          var rt = xhr.responseType;
-          if (rt && rt !== "text" && rt !== "") {
-            return;
-          }
-          var text = xhr.responseText;
-          if (!text) {
-            return;
-          }
-          var parsed = JSON.parse(text);
-          filterApiJson(parsed);
-          var out = JSON.stringify(parsed);
-          try {
-            Object.defineProperty(xhr, "responseText", {
-              configurable: true,
-              enumerable: true,
-              writable: true,
-              value: out,
-            });
-          } catch (_e1) {
-            try {
-              xhr.responseText = out;
-            } catch (_e2) {}
-          }
-          if (rt === "" || rt === "text") {
-            try {
-              Object.defineProperty(xhr, "response", {
-                configurable: true,
-                enumerable: true,
-                writable: true,
-                value: out,
-              });
-            } catch (_e3) {}
-          }
-        } catch (_e) {}
-      },
-      false
-    );
-    return originalSend.apply(this, arguments);
+    return originalFetch.apply(this, args);
   };
 })();

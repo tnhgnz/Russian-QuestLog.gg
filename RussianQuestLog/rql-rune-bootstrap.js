@@ -13,7 +13,17 @@
     } catch (_e) {}
   }
 
+  function setEquipmentItemsDbUrl() {
+    try {
+      document.documentElement.setAttribute(
+        "data-rql-itemsdb-json",
+        chrome.runtime.getURL("itemsdb.json")
+      );
+    } catch (_e) {}
+  }
+
   setSynergyUrlFromTier("t2");
+  setEquipmentItemsDbUrl();
   try {
     chrome.storage.local.get([TIER_KEY], function (r) {
       setSynergyUrlFromTier(r[TIER_KEY]);
